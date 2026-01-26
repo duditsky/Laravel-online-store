@@ -6,28 +6,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Online Store: @yield('title') </title>
 
+  <link rel="stylesheet" href="{{ asset('css/chat.css') }}">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="{{'/css/main.css'}}">
 </head>
 
 <body>
-   @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+  @if ($errors->any())
+  <div class="alert alert-danger">
+    <ul>
+      @foreach ($errors->all() as $error)
+      <li>{{ $error }}</li>
+      @endforeach
+    </ul>
+  </div>
+  @endif
 
-    @if (session('success'))
-        <div class="alert alert-success">
-            <ul>
-               <li>{{ session('success') }}</li>
-            </ul>
-        </div>
-    @endif
+  @if (session('success'))
+  <div class="alert alert-success">
+    <ul>
+      <li>{{ session('success') }}</li>
+    </ul>
+  </div>
+  @endif
 
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
@@ -48,19 +49,19 @@
             <a class="nav-link" href="{{route('basket')}}">Basket</a>
           </li>
         </ul>
-         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           @auth
           @cannot('admin-role')
           <li class="nav-item" text-align: left>
             <a class="nav-link" href="{{route('orders')}}"><b>Hello:{{auth()->user()->name}}</b></a>
           </li>
-         
+
           @endcan
-           @can('admin-role')
+          @can('admin-role')
           <li class="nav-item" text-align: left>
             <a class="nav-link" href="{{route('all.orders')}}"><b>Hello:{{auth()->user()->name}}</b></a>
           </li>
-           <li class="nav-item" text-align: left>
+          <li class="nav-item" text-align: left>
             <a class="nav-link" href="{{route('post.home')}}"><b>All Posts</b></a>
           </li>
           @endcan
@@ -84,12 +85,14 @@
 
         </ul>
         <form class="d-flex" action="{{route('search')}}" method="GET">
-          <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search" >
+          <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
       </div>
     </div>
   </nav>
+  <x-chat-widget />
+  <script src="{{ asset('js/chat.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
   <script src="{{url('js/main.js')}}"></script>
 </body>

@@ -4,9 +4,12 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ChatController;
 
 
 Route::middleware(['throttle:onlineStore'])->group(function () {
+
+Route::get('/chat', ChatController::class);
 
 Route::get('/all',[ProductController::class,'allProducts'])->name('allProducts');
 
@@ -17,19 +20,27 @@ Route::post('/register',[UserController::class,'store'])->name('register.store')
 Route::get('/login',[UserController::class,'loginForm'])->name('login');
 Route::post('/login',[UserController::class,'loginAuth'])->name('login.auth');
 
+
 });
+
+Route::get('/basket',[BasketController::class,'basket'])->name('basket');
+Route::post('/basket/add/{id}',[BasketController::class,'basketAdd'])->name('basket.add');
+Route::get('/basket/place',[BasketController::class,'basketPlace'])->name('basket.place');
+Route::post('/basket/remove/{id}',[BasketController::class,'basketRemove'])->name('basket.remove'); 
+
+
 
 
 Route::middleware('auth')->group(function(){
 
-Route::get('/basket',[BasketController::class,'basket'])->name('basket');
+
 Route::get('/logout',[UserController::class,'logOut'])->name('logout');
 Route::get('/order',[UserController::class,'orders'])->name('orders');
 Route::get('/orders',[UserController::class,'allOrders'])->name('all.orders');
 Route::put('orders/{order}/status',[UserController::class,'changeStatus'])->name('status.orders');
-Route::get('/basket/place',[BasketController::class,'basketPlace'])->name('basket.place');
-Route::post('/basket/add/{id}',[BasketController::class,'basketAdd'])->name('basket.add');
-Route::post('/basket/remove/{id}',[BasketController::class,'basketRemove'])->name('basket.remove');  
+
+
+
 Route::post('/basket/place',[BasketController::class,'basketConfirm'])->name('basket.confirm');  
 
 Route::any('/posts',[PostController::class,'index'])->name('post.home');

@@ -6,7 +6,7 @@
     <h1>Place your order</h1>
     <div class="container">
         <div class="row justify-container-center">
-            <p>Total price: <b>{{$order->getFullPrice()}}</b></p>
+            <p>Total price: <b>{{$order->getFullPrice()}} $</b></p>
             <form action="{{route('basket.confirm')}}" method="post">
 
                 <div>
