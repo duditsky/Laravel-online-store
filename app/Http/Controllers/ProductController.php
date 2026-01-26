@@ -22,7 +22,7 @@ class ProductController extends Controller
         $sort_order = $request->input('sort_order', 'asc');
 
         $products = Product::orderBy($sort_by, $sort_order)->get();
-        return view('layouts.product', compact('products'));
+        return view('product.product', compact('products'));
     }
     public function categories()
     {
