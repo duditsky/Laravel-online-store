@@ -1,0 +1,24 @@
+:root {
+    --main-color: #ffc107;
+}
+
+.search-input {
+    border-radius: 20px 0 0 20px !important;
+}
+
+.search-btn {
+    border-radius: 0 20px 20px 0 !important;
+}
+
+.nav-link {
+    font-weight: 500;
+}
+
+.top-header {
+    font-size: 0.85rem;
+    background: #f8f9fa;
+}
+
+.navbar-brand {
+    font-style: italic;
+}

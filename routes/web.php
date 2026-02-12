@@ -5,6 +5,7 @@ use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\CallbackController;
 
 
 Route::middleware(['throttle:onlineStore'])->group(function () {
@@ -50,6 +51,8 @@ Route::post('/posts/store',[PostController::class,'store'])->name('posts.store')
  Route::any('/posts/{post}',[PostController::class,'destroy'])->name('posts.destroy');
 
 });
+
+Route::post('/callback', [CallbackController::class, 'store'])->name('callback.store');
 Route::get('/',[ProductController::class,'index'])->name('home');
 Route::get('/search',[ProductController::class,'search'])->name('search');
 
