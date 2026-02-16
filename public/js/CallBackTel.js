@@ -1,41 +1,49 @@
+let phoneMask;
+
 function initPhoneMask() {
     const phoneElement = document.getElementById('phoneInput');
     if (!phoneElement || typeof IMask === 'undefined') return;
 
+    if (phoneMask) phoneMask.destroy();
+
     const maskOptions = {
-        // Ми робимо нуль частиною маски, яка не змінюється
         mask: '+38 (\\000) 000-00-00',
         lazy: false,
         placeholderChar: '_',
+        overwrite: true,
         definitions: {
-            // Тепер '0' у масці перед іншими цифрами буде сприйматися як текст
-            '\\0': {
+            '0': {
                 mask: '0',
-                placeholder: '0',
-                fixed: true // Це не дасть його змінити
+                fixed: true
             }
         }
     };
 
-    const mask = IMask(phoneElement, maskOptions);
+    phoneMask = IMask(phoneElement, maskOptions);
 
-    function setCursor() {
-        // Позиція 7 — це відразу після (0
-        // Якщо введено менше 2 цифр (тільки наш префікс), повертаємо курсор
-        if (mask.unmaskedValue.length <= 1) {
+    const setCursor = () => {
+        if (phoneMask.unmaskedValue.length <= 1) {
             setTimeout(() => {
-                phoneElement.setSelectionRange(7, 7);
+                phoneElement.setSelectionRange(6, 6);
             }, 10);
         }
-    }
+    };
 
     phoneElement.addEventListener('focus', setCursor);
     phoneElement.addEventListener('click', setCursor);
 }
 
-// Запуск
-document.addEventListener('DOMContentLoaded', initPhoneMask);
-const modal = document.getElementById('callbackModal');
-if (modal) {
-    modal.addEventListener('shown.bs.modal', initPhoneMask);
-}
+document.addEventListener('DOMContentLoaded', () => {
+    const modalElement = document.getElementById('callbackModal');
+    if (modalElement) {
+        modalElement.addEventListener('shown.bs.modal', initPhoneMask);
+        modalElement.addEventListener('hidden.bs.modal', () => {
+            const form = modalElement.querySelector('form');
+            if (form) form.reset();
+            if (phoneMask) {
+                phoneMask.destroy();
+                phoneMask = null;
+            }
+        });
+    }
+});

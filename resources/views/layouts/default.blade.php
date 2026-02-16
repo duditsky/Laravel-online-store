@@ -193,8 +193,9 @@
 
                     <div class="mb-3">
                         <label class="form-label small text-muted mb-1">Your phone number</label>
-                        <input type="tel" id="phoneInput" name="phone" class="form-control border-2 shadow-none" 
-                               style="border-color: #ffd700; border-radius: 8px;" required>
+                       <input type="tel" id="phoneInput" name="phone" 
+       class="form-control border-2 shadow-none" 
+       autocomplete="off" required>
                     </div>
 
                     <p class="text-secondary mb-0" style="font-size: 0.8rem; line-height: 1.4;">
