@@ -15,9 +15,19 @@ class CallbackController extends Controller
             'phone' => 'required|string|max:30',
         ]);
 
+        $cleanPhone = preg_replace('/[^0-9]/', '', $request->phone);
+
+        $alreadyExists = CallbackRequest::where('phone', $cleanPhone)
+            ->where('created_at', '>=', now()->subMinutes(5))
+            ->exists();
+
+        if ($alreadyExists) {
+            return back()->with('info', 'you already submitted a request!');
+        }
+
         $callback = CallbackRequest::create([
             'name'   => $request->name,
-            'phone'  => preg_replace('/[^0-9]/', '', $request->phone),
+            'phone'  => $cleanPhone,
             'status' => 'new'
         ]);
 
@@ -39,7 +49,7 @@ class CallbackController extends Controller
                 ]]
             ];
 
-            Http::withoutVerifying()->post("https://api.telegram.org/bot{$token}/sendMessage", [
+            Http::post("https://api.telegram.org/bot{$token}/sendMessage", [
                 'chat_id' => $chatId,
                 'text' => $text,
                 'parse_mode' => 'Markdown',
@@ -69,12 +79,12 @@ class CallbackController extends Controller
 
                     $callback->update(['status' => 'completed']);
 
-                    Http::withoutVerifying()->post("https://api.telegram.org/bot{$token}/answerCallbackQuery", [
+                    Http::post("https://api.telegram.org/bot{$token}/answerCallbackQuery", [
                         'callback_query_id' => $callbackQueryId,
                         'text' => 'Request processed!'
                     ]);
 
-                    Http::withoutVerifying()->post("https://api.telegram.org/bot{$token}/editMessageText", [
+                    Http::post("https://api.telegram.org/bot{$token}/editMessageText", [
                         'chat_id'    => $chatId,
                         'message_id' => $messageId,
                         'text'       => "✅ *PROCESSED: Request #{$id}*\n\n👤 *Customer:* {$callback->name}\n🚀 *Status:* Completed",

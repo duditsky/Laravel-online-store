@@ -128,6 +128,12 @@
     </div>
     @endif
 
+    @if (session('info'))
+    <div class="alert alert-info shadow-sm border-0 border-start border-info border-4">
+      <i class="bi bi-info-circle-fill me-2"></i>{{ session('info') }}
+    </div>
+    @endif
+
     @if (session('success'))
     <div class="alert alert-success shadow-sm border-0 border-start border-success border-4">
       <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
@@ -174,44 +180,44 @@
   </footer>
 
   <x-chat-widget />
- <div class="modal fade" id="callbackModal" tabindex="-1" aria-hidden="true">
+  <div class="modal fade" id="callbackModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
-        <div class="modal-content border-0 shadow-lg" style="border-radius: 15px; overflow: hidden;">
-            <div class="modal-header bg-warning border-0 py-3">
-                <h5 class="modal-title fw-bold text-dark">Call me back</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            
-            <form action="{{ route('callback.store') }}" method="POST">
-                @csrf
-                <div class="modal-body px-4 pt-4">
-                    <div class="mb-3">
-                        <label class="form-label small text-muted mb-1">Your name</label>
-                        <input type="text" name="name" class="form-control border-2 shadow-none" 
-                               style="border-color: #ffd700; border-radius: 8px;" placeholder="John Doe" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label small text-muted mb-1">Your phone number</label>
-                       <input type="tel" id="phoneInput" name="phone" 
-       class="form-control border-2 shadow-none" 
-       autocomplete="off" required>
-                    </div>
-
-                    <p class="text-secondary mb-0" style="font-size: 0.8rem; line-height: 1.4;">
-                        We will call you back within 15 minutes.
-                    </p>
-                </div>
-                
-                <div class="modal-footer border-0 px-4 pb-4 pt-0">
-                    <button type="submit" class="btn btn-warning w-100 fw-bold py-2" style="border-radius: 8px;">
-                        Send request
-                    </button>
-                </div>
-            </form>
+      <div class="modal-content border-0 shadow-lg" style="border-radius: 15px; overflow: hidden;">
+        <div class="modal-header bg-warning border-0 py-3">
+          <h5 class="modal-title fw-bold text-dark">Call me back</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+        
+        <form action="{{ route('callback.store') }}" method="POST">
+          @csrf
+          <div class="modal-body px-4 pt-4">
+            <div class="mb-3">
+              <label class="form-label small text-muted mb-1">Your name</label>
+              <input type="text" name="name" class="form-control border-2 shadow-none" 
+                     style="border-color: #ffd700; border-radius: 8px;" placeholder="John Doe" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small text-muted mb-1">Your phone number</label>
+              <input type="tel" id="phoneInput" name="phone" 
+                     class="form-control border-2 shadow-none" 
+                     autocomplete="off" required>
+            </div>
+
+            <p class="text-secondary mb-0" style="font-size: 0.8rem; line-height: 1.4;">
+              We will call you back within 15 minutes.
+            </p>
+          </div>
+          
+          <div class="modal-footer border-0 px-4 pb-4 pt-0">
+            <button type="submit" class="btn btn-warning w-100 fw-bold py-2" style="border-radius: 8px;">
+              Send request
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-</div>
+  </div>
   <script src="https://unpkg.com/imask"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
   <script src="{{ asset('js/chat.js') }}"></script>

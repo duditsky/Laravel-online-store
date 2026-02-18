@@ -52,6 +52,14 @@ Route::post('/posts/store',[PostController::class,'store'])->name('posts.store')
 
 });
 
+Route::get('forgot-password', [UserController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('forgot-password', [UserController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('reset-password/{token}', [UserController::class, 'showResetForm'])->name('password.reset');
+Route::post('reset-password', [UserController::class, 'reset'])->name('password.update');
+
+
+
+
 Route::post('/callback', [CallbackController::class, 'store'])->name('callback.store');
 Route::get('/',[ProductController::class,'index'])->name('home');
 Route::get('/search',[ProductController::class,'search'])->name('search');
