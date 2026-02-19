@@ -1,4 +1,3 @@
-
 @extends('layouts.default')
 
 @section('title', $product->name . ' - Product Details')
@@ -8,10 +7,10 @@
     <div class="row g-5">
         <div class="col-md-6 text-center">
             <div class="card border-0 shadow-sm p-4" style="border-radius: 20px; background: #fff;">
-                <img src="{{ url('img/'.$product->image.'.jpg') }}" 
-                     class="img-fluid rounded" 
-                     alt="{{ $product->name }}" 
-                     style="max-height: 500px; object-fit: contain;">
+                <img src="{{ url('img/'.$product->image.'.jpg') }}"
+                    class="img-fluid rounded"
+                    alt="{{ $product->name }}"
+                    style="max-height: 500px; object-fit: contain;">
             </div>
         </div>
 
@@ -29,21 +28,28 @@
                 </nav>
 
                 <h1 class="display-6 fw-bold mb-3 text-dark">{{ $product->name }}</h1>
-                
+
                 <div class="price-section mb-4">
                     <span class="h2 fw-bold" style="color: var(--main-color);">${{ number_format($product->price, 2) }}</span>
                 </div>
 
-                <form action="{{ route('basket.add', $product) }}" method="POST">
+                <form action="{{ route('basket.add', $product) }}" method="POST" class="add-to-cart-form">
                     @csrf
                     <div class="mb-4">
-                        <label for="quantity" class="form-label small fw-bold text-muted">QUANTITY:</label>
-                        <input type="number" name="quantity" id="quantity" class="form-control shadow-sm" 
-                               value="1" min="1" max="99" style="width: 90px; border-radius: 10px;">
+                        <label for="quantity" class="form-label small fw-bold text-muted text-uppercase">
+                            <i class="bi bi-box-seam me-1"></i> Quantity:
+                        </label>
+                        <div class="input-group" style="width: 130px;">
+                            <input type="number" name="quantity" id="quantity"
+                                class="form-control shadow-sm border-primary text-center fw-bold"
+                                value="1" min="1" max="99"
+                                style="border-radius: 10px; border-width: 2px;">
+                        </div>
                     </div>
-                    
-                    <button type="submit" class="btn btn-dark btn-lg w-100 shadow py-3" style="border-radius: 12px; font-weight: 700;">
-                        ADD TO SHOPPING CART
+
+                    <button type="submit" class="btn btn-primary btn-lg w-100 shadow py-3 transition-all"
+                        style="border-radius: 12px; font-weight: 700; letter-spacing: 0.5px;">
+                        <i class="bi bi-cart-plus-fill me-2"></i> ADD TO CART
                     </button>
                 </form>
             </div>

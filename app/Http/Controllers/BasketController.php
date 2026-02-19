@@ -54,7 +54,7 @@ class BasketController extends Controller
         $order = Order::find($orderId);
         return view('product.order', compact('order'));
     }
-   public function basketAdd($productId, Request $request)
+    public function basketAdd($productId, Request $request)
     {
         try {
             $quantity = (int) $request->input('quantity', 1);
@@ -67,6 +67,8 @@ class BasketController extends Controller
                 $order = Order::find($orderId);
             }
 
+            $product = Product::findOrFail($productId);
+
             if ($order->products->contains($productId)) {
                 $pivotRow = $order->products()->where('product_id', $productId)->first()->pivot;
                 $pivotRow->count += $quantity;
@@ -78,25 +80,19 @@ class BasketController extends Controller
             }
 
             $order->refresh();
-            $product = Product::find($productId);
 
-            if ($request->ajax() || $request->wantsJson()) {
+            if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
-                    'count' => $newCount,
-                    'itemPrice' => number_format($product->price * $newCount, 2),
-                    'totalPrice' => number_format($order->getFullPrice(), 2),
-                    'fullCount' => (int) $order->products()->sum('order_product.count')
+                    'message' => "{$product->name} added to cart!",
+                    'fullCount' => (int) $order->products()->sum('order_product.count'),
+                    'totalPrice' => number_format($order->getFullPrice(), 2)
                 ]);
             }
 
-            return redirect()->route('basket')->with('success', 'Product added to cart!');
-            
+                       return back()->with('success', 'Product added!');
         } catch (\Exception $e) {
-            if ($request->ajax() || $request->wantsJson()) {
-                return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
-            }
-            return back()->with('error', 'Error: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
 
@@ -137,7 +133,6 @@ class BasketController extends Controller
             }
 
             return redirect()->route('basket');
-
         } catch (\Exception $e) {
             if ($request->ajax() || $request->wantsJson()) {
                 return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
@@ -145,14 +140,23 @@ class BasketController extends Controller
             return back()->with('error', 'Error: ' . $e->getMessage());
         }
     }
-    public function basketRemoveAll($productId)
+    public function basketRemoveAll($productId, Request $request) // Додай Request!
     {
         $orderId = session('orderId');
         if (!is_null($orderId)) {
             $order = Order::find($orderId);
             $order->products()->detach($productId);
+            $order->refresh();
         }
 
-        return redirect()->route('basket')->with('warning', 'Product removed from cart.');
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'totalPrice' => number_format($order->getFullPrice(), 2),
+                'fullCount' => (int) $order->products()->sum('order_product.count')
+            ]);
+        }
+
+        return redirect()->route('basket');
     }
 }

@@ -1,22 +1,19 @@
-/**
- * JoyStore Cart Logic with SweetAlert2 integration
- */
+
 document.addEventListener('DOMContentLoaded', () => {
 
-    // 1. ОБРОБКА КНОПОК ПЛЮС/МІНУС (AJAX)
     document.addEventListener('click', async (e) => {
         const button = e.target.closest('.cart-update-btn');
         if (!button) return;
 
         const url = button.getAttribute('data-url');
         const productId = button.getAttribute('data-id');
-        
+
         const countSpan = document.getElementById(`count-${productId}`);
         const itemPriceSpan = document.getElementById(`item-price-${productId}`);
         const totalAmountSpan = document.getElementById('total-amount');
         const totalItemsHeader = document.getElementById('total-items-count') || document.getElementById('basket-count');
 
-        // Блокуємо кнопку та візуально змінюємо прозорість лічильника
+
         button.disabled = true;
         if (countSpan) countSpan.style.opacity = '0.5';
 
@@ -36,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
 
             if (data.success) {
-                // Видалення рядка, якщо кількість стала 0
                 if (data.count === 0) {
                     const row = document.getElementById(`row-${productId}`);
                     if (row) row.remove();
@@ -45,15 +41,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         return;
                     }
                 } else {
-                    // Оновлення кількості та проміжної ціни товару
                     if (countSpan) countSpan.innerText = data.count;
                     if (itemPriceSpan) itemPriceSpan.innerText = data.itemPrice;
                 }
 
-                // Оновлення загальної суми кошика
                 if (totalAmountSpan) totalAmountSpan.innerText = data.totalPrice;
-
-                // Оновлення бейджа в хедері
                 if (totalItemsHeader) {
                     totalItemsHeader.innerText = data.fullCount;
                     if (data.fullCount > 0) {
@@ -65,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (error) {
             console.error('Cart Update Error:', error);
-            // Англомовна помилка через SweetAlert2
             Swal.fire({
                 title: 'Oops!',
                 text: 'Could not update the cart. Please try again later.',
@@ -79,29 +70,112 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 2. СТИЛЬНЕ ПІДТВЕРДЖЕННЯ ВИДАЛЕННЯ (SweetAlert2)
-    document.addEventListener('submit', function(e) {
+    document.addEventListener('submit', async function (e) {
         const form = e.target.closest('.delete-all-form');
         if (!form) return;
 
         e.preventDefault();
-        
-        // Англомовний модал підтвердження
-        Swal.fire({
+
+        const result = await Swal.fire({
             title: 'Remove item?',
             text: "Are you sure you want to remove all units of this product?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#ffc107', // JoyStore Yellow
-            cancelButtonColor: '#343a40',  // Dark Gray
+            confirmButtonColor: '#0d6efd',
+            cancelButtonColor: '#343a40',
             confirmButtonText: 'Yes, remove it!',
-            cancelButtonText: 'Cancel',
-            borderRadius: '15px',
-            background: '#fff'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                form.submit();
-            }
+            cancelButtonText: 'Cancel'
         });
+
+        if (result.isConfirmed) {
+            const url = form.getAttribute('action');
+            const row = form.closest('tr');
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    row.style.transition = '0.3s';
+                    row.style.opacity = '0';
+                    setTimeout(() => {
+                        row.remove();
+                        if (document.querySelectorAll('tbody tr').length === 0) {
+                            location.reload();
+                        }
+                    }, 300);
+
+                    if (document.getElementById('total-amount')) {
+                        document.getElementById('total-amount').innerText = data.totalPrice;
+                    }
+                    const badge = document.getElementById('basket-count') || document.getElementById('total-items-count');
+                    if (badge) {
+                        badge.innerText = data.fullCount;
+                    }
+                }
+            } catch (error) {
+                console.error('Delete Error:', error);
+            }
+        }
+    });
+    document.addEventListener('submit', async (e) => {
+        const form = e.target.closest('.add-to-cart-form');
+        if (!form) return;
+
+        e.preventDefault();
+
+        const url = form.getAttribute('action');
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                const basketCount = document.getElementById('basket-count');
+                if (basketCount) {
+                    basketCount.innerText = data.fullCount;
+                }
+
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: false,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                });
+                
+
+                Toast.fire({
+                    icon: 'success',
+                    title: data.message,
+                    iconColor: '#0d6efd',
+                    background: '#fff',
+                    color: '#333',
+                });
+            }
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+        }
     });
 });
