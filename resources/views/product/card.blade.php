@@ -1,6 +1,5 @@
 <div class="card h-100 border-0 shadow-sm transition-hover" style="border-radius: 15px; overflow: hidden;">
     <div class="position-relative text-center p-3" style="background: #fdfdfd; height: 220px;">
-        {{-- Перевіряємо наявність зображення, якщо NULL — ставимо заглушку --}}
         <img src="{{ $product->image ? url('img/'.$product->image.'.jpg') : url('img/no-image.jpg') }}" 
              class="card-img-top w-100 h-100" 
              alt="{{ $product->name }}" 
@@ -19,8 +18,7 @@
         </div>
 
         <div class="d-grid gap-2 mt-auto">
-            {{-- Передаємо саме 'code', як у твоїй базі даних --}}
-            <a href="{{ route('productDetails', ['category' => $product->category->code, 'product' => $product->code]) }}" 
+                  <a href="{{ route('productDetails', ['category' => $product->category->code, 'product' => $product->code]) }}" 
                class="btn btn-outline-dark btn-sm rounded-pill" style="font-weight: 500;">
                VIEW DETAILS
             </a>

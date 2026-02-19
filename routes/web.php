@@ -12,7 +12,7 @@ use App\Http\Controllers\CallbackController;
 Route::middleware(['throttle:onlineStore'])->group(function () {
 
     Route::get('/chat', ChatController::class);
-
+   
     Route::get('/all', [ProductController::class, 'allProducts'])->name('allProducts');
 
     Route::middleware('guest')->group(function () {

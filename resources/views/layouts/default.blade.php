@@ -4,7 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  {{-- 1. ДОДАНО CSRF TOKEN ДЛЯ AJAX ЗАПИТІВ --}}
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <title>JoyStore: @yield('title')</title>
@@ -101,7 +100,6 @@
             }
             @endphp
 
-            {{-- 2. ДОДАНО ID basket-count ДЛЯ ОНОВЛЕННЯ ЦИФРИ --}}
             <span id="basket-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill {{ $totalItems > 0 ? 'bg-danger' : 'bg-secondary' }}">
               {{ $totalItems }}
             </span>
@@ -242,7 +240,6 @@
   <script src="{{ asset('js/main.js') }}"></script>
   <script src="{{ asset('js/CallBackTel.js') }}"></script>
 
-  {{-- 3. ДОДАНО СТЕК ДЛЯ ПІДКЛЮЧЕННЯ СКРИПТІВ З ІНШИХ СТОРІНОК --}}
   @stack('scripts')
 </body>
 

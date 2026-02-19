@@ -8,7 +8,7 @@
     @include('components.sort-dropdown')
 </div>
 <div class="row text-center">
-    <h1>All Products</h1>
+    <h4>All Products</h4>
     <div class="row mt-4">
         @foreach($products as $product)
         <div class="col-md-3 mb-4">
