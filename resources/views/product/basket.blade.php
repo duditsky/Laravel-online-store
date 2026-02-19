@@ -1,63 +1,114 @@
 @extends('layouts.default')
-@section('title', 'Basket')
+@section('title', 'Shopping Cart')
+
 @section('content')
-<div class="container">
-    <div class="starter-template" style="text-align: center;">
-        <h1>Basket</h1>
-        <p>place an order</p>
-        <div class="panel">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Full Price</th>
-                    </tr>
-                </thead>
-            @foreach($order->products as $product)
-                <tbody>
-                    <tr>
-                        <td>
-                            <a href=" {{route('productDetails',[$product->category->code,$product->code])}}" class="card-link">
-                                <img src="{{url('img/'.$product->image.'.jpg')}}" alt="" style="height: 50px; ">{{$product->name}}</a>
-                        </td>
-                        <td><span class="badge text-bg-secondary">{{$product->pivot->count}}</span>
-                            <div class="btn-group">
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="fw-bold mb-0">Shopping Cart</h1>
+                <h6 class="mb-0 text-muted" id="total-items-count">{{ $order->products->sum('pivot.count') }} items</h6>
+            </div>
+            <hr class="my-4">
 
+            @if($order->products->count() > 0)
+            <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="px-4 py-3">Product</th>
+                                <th class="text-center">Quantity</th>
+                                <th class="text-center">Price</th>
+                                <th class="text-center">Total</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($order->products as $product)
+                            <tr id="row-{{ $product->id }}">
+                                <td class="px-4 py-3">
+                                    <div class="d-flex align-items-center">
+                                        <img src="{{ asset('img/'.$product->image.'.jpg') }}"
+                                            class="rounded-3 me-3"
+                                            style="width: 70px; height: 70px; object-fit: cover;" alt="">
+                                        <div>
+                                            <a href="{{ route('productDetails', [$product->category->code, $product->code]) }}"
+                                                class="text-dark fw-bold text-decoration-none d-block">
+                                                {{ $product->name }}
+                                            </a>
+                                            <small class="text-muted small">Category: {{ $product->category->name }}</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <div class="btn-group shadow-sm rounded">
+                                            <button type="button" class="btn btn-white btn-sm border px-3 cart-update-btn"
+                                                data-url="{{ route('basket.remove', $product->id) }}"
+                                                data-id="{{ $product->id }}">-</button>
 
-                                <form action="{{route('basket.remove',[$product])}}" method="post">
-                                    @csrf
-                                    <button type="submit" class="btn btn-danger">-
-                                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                                    </button>
-                                </form>
+                                            <span class="btn btn-white btn-sm border disabled fw-bold px-3" id="count-{{ $product->id }}">
+                                                {{ $product->pivot->count }}
+                                            </span>
 
-                                <form action="{{route('basket.add',[$product])}}" method="post">
-                                    @csrf
-                                    <button type="submit" class="btn btn-success">+
-                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                    </button>
-                                </form>
-                                </a>
+                                            <button type="button" class="btn btn-white btn-sm border px-3 cart-update-btn"
+                                                data-url="{{ route('basket.add', $product->id) }}"
+                                                data-id="{{ $product->id }}">+</button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center text-muted">${{ number_format($product->price, 2) }}</td>
+                                <td class="text-center fw-bold text-dark">
+                                    $<span id="item-price-{{ $product->id }}">{{ number_format($product->getCountPrice(), 2) }}</span>
+                                </td>
+                                <td class="text-center">
+                                    <form action="{{ route('basket.remove-all', $product->id) }}" method="POST" class="delete-all-form">
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-danger btn-sm border-0 rounded-circle">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer bg-white border-0 p-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <a href="{{ route('home') }}" class="text-warning fw-bold text-decoration-none">
+                                <i class="bi bi-arrow-left me-2"></i>Continue Shopping
+                            </a>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <div class="mb-3">
+                                <span class="text-muted me-2">Total Amount:</span>
+                                <span class="h3 fw-bold">$<span id="total-amount">{{ number_format($order->getFullPrice(), 2) }}</span></span>
                             </div>
-                        </td>
-                        <td>{{ $product->price }}$</td>
-                        <td>{{ $product->getCountPrice()}}$</td>
-                    </tr>
-                  @endforeach
-
-                    <tr>
-                        <td colspan="3">Total:</td>
-                        <td>{{$order->getFullPrice()}}$</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <br>
-        <div class="btn-group pull-right" role="group">
-            <a type="button" class="btn btn-success" href="{{route('basket.place')}}">Buy It Now</a>
+                            <a href="{{ route('basket.place') }}" class="btn btn-warning btn-lg px-5 fw-bold shadow-sm rounded-3">
+                                Buy It Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @else
+            <div class="text-center py-5 mx-auto" style="max-width: 400px;">
+                <i class="bi bi-cart-x text-muted" style="font-size: 3.5rem; opacity: 0.6;"></i>
+                <h4 class="fw-bold text-dark mt-3">Your cart is empty</h4>
+                <p class="text-muted small">Add items to start your creative journey with JoyStore.</p>
+                <a href="{{ route('home') }}" class="btn btn-warning px-4 fw-bold mt-2 shadow-sm" style="border-radius: 10px;">
+                    Go Shopping
+                </a>
+            </div>
+            @endif
         </div>
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/cart.js') }}"></script>
+@endpush

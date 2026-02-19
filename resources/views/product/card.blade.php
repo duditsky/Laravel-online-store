@@ -1,15 +1,36 @@
- <div class="card">
-     <img src="{{url('img/'.$product->image.'.jpg')}}" class="card-img-top" alt="{{$product->name}}" style="height: 200px; object-fit: cover;">
-     <div class="card-body">
+<div class="card h-100 border-0 shadow-sm transition-hover" style="border-radius: 15px; overflow: hidden;">
+    <div class="position-relative text-center p-3" style="background: #fdfdfd; height: 220px;">
+        {{-- Перевіряємо наявність зображення, якщо NULL — ставимо заглушку --}}
+        <img src="{{ $product->image ? url('img/'.$product->image.'.jpg') : url('img/no-image.jpg') }}" 
+             class="card-img-top w-100 h-100" 
+             alt="{{ $product->name }}" 
+             style="object-fit: contain;">
+    </div>
 
-         <h5 class="card-title">{{$product->name}}</h5>
-         <p class="card-text">Price: ${{$product->price}}</p>
-         <a href="{{route('productDetails',[$product->category->code,$product->code])}}" class="btn btn-primary">View Details</a>
-
-         <form action="{{route('basket.add', $product)}}" method="POST">
-             <button type="submit" class="btn btn-success">To Cart</button>
-             @csrf
-         </form>
+    <div class="card-body d-flex flex-column text-center">
+        <h5 class="card-title mb-1" style="font-weight: 600; min-height: 48px;">
+            {{ $product->name }}
+        </h5>
         
-     </div>
- </div>
+        <div class="mb-3">
+            <span class="h4" style="color: var(--main-color); font-weight: 700;">
+                ${{ number_format($product->price, 2) }}
+            </span>
+        </div>
+
+        <div class="d-grid gap-2 mt-auto">
+            {{-- Передаємо саме 'code', як у твоїй базі даних --}}
+            <a href="{{ route('productDetails', ['category' => $product->category->code, 'product' => $product->code]) }}" 
+               class="btn btn-outline-dark btn-sm rounded-pill" style="font-weight: 500;">
+               VIEW DETAILS
+            </a>
+
+            <form action="{{ route('basket.add', $product->id) }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-dark w-100 rounded-pill shadow-sm py-2" style="font-weight: 600;">
+                    ADD TO CART
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -4,13 +4,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {{-- 1. ДОДАНО CSRF TOKEN ДЛЯ AJAX ЗАПИТІВ --}}
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
   <title>JoyStore: @yield('title')</title>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="{{ asset('css/chat.css') }}">
   <link rel="stylesheet" href="{{ asset('css/main.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/products.css') }}">
 
 </head>
 
@@ -85,11 +87,25 @@
         </div>
 
         <div class="col-lg-3 col-6 order-2 order-lg-3 text-end">
-          <a href="{{route('basket')}}" class="btn btn-outline-dark border-0 position-relative p-2">
+          <a href="{{ route('basket') }}" class="btn btn-outline-dark border-0 position-relative p-2">
             <i class="bi bi-cart3 fs-4"></i>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-              0
+
+            @php
+            $orderId = session('orderId');
+            $totalItems = 0;
+            if ($orderId) {
+            $order = \App\Models\Order::find($orderId);
+            if ($order) {
+            $totalItems = $order->products->sum('pivot.count');
+            }
+            }
+            @endphp
+
+            {{-- 2. ДОДАНО ID basket-count ДЛЯ ОНОВЛЕННЯ ЦИФРИ --}}
+            <span id="basket-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill {{ $totalItems > 0 ? 'bg-danger' : 'bg-secondary' }}">
+              {{ $totalItems }}
             </span>
+
             <span class="d-none d-md-inline ms-1 fw-bold">Cart</span>
           </a>
         </div>
@@ -107,7 +123,7 @@
           <li class="nav-item">
             <a class="nav-link text-dark fw-bold" href="{{route('allProducts')}}"><i class="bi bi-grid-3x3-gap me-1"></i> All Products</a>
           </li>
-          <li class="nav-item"><a class="nav-link text-dark" href="{{route('categories')}}">School Supplies</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="{{route('categories')}}">Categories</a></li>
           <li class="nav-item"><a class="nav-link text-dark" href="#">Creativity</a></li>
           <li class="nav-item"><a class="nav-link text-dark" href="#">Leisure</a></li>
           <li class="nav-item"><a class="nav-link text-dark" href="#">Home Goods</a></li>
@@ -180,6 +196,7 @@
   </footer>
 
   <x-chat-widget />
+
   <div class="modal fade" id="callbackModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
       <div class="modal-content border-0 shadow-lg" style="border-radius: 15px; overflow: hidden;">
@@ -187,28 +204,28 @@
           <h5 class="modal-title fw-bold text-dark">Call me back</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        
+
         <form action="{{ route('callback.store') }}" method="POST">
           @csrf
           <div class="modal-body px-4 pt-4">
             <div class="mb-3">
               <label class="form-label small text-muted mb-1">Your name</label>
-              <input type="text" name="name" class="form-control border-2 shadow-none" 
-                     style="border-color: #ffd700; border-radius: 8px;" placeholder="John Doe" required>
+              <input type="text" name="name" class="form-control border-2 shadow-none"
+                style="border-color: #ffd700; border-radius: 8px;" placeholder="John Doe" required>
             </div>
 
             <div class="mb-3">
               <label class="form-label small text-muted mb-1">Your phone number</label>
-              <input type="tel" id="phoneInput" name="phone" 
-                     class="form-control border-2 shadow-none" 
-                     autocomplete="off" required>
+              <input type="tel" id="phoneInput" name="phone"
+                class="form-control border-2 shadow-none"
+                autocomplete="off" required>
             </div>
 
             <p class="text-secondary mb-0" style="font-size: 0.8rem; line-height: 1.4;">
               We will call you back within 15 minutes.
             </p>
           </div>
-          
+
           <div class="modal-footer border-0 px-4 pb-4 pt-0">
             <button type="submit" class="btn btn-warning w-100 fw-bold py-2" style="border-radius: 8px;">
               Send request
@@ -218,11 +235,15 @@
       </div>
     </div>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://unpkg.com/imask"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
   <script src="{{ asset('js/chat.js') }}"></script>
   <script src="{{ asset('js/main.js') }}"></script>
   <script src="{{ asset('js/CallBackTel.js') }}"></script>
+
+  {{-- 3. ДОДАНО СТЕК ДЛЯ ПІДКЛЮЧЕННЯ СКРИПТІВ З ІНШИХ СТОРІНОК --}}
+  @stack('scripts')
 </body>
 
 </html>

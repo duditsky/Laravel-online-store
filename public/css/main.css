@@ -1,8 +1,37 @@
-body
-{
-    
+:root {
+    --main-color: #ffc107;
 }
-h5{
-    font-size: medium;
-    font-weight: bold;
+
+.search-input {
+    border-radius: 20px 0 0 20px !important;
+}
+
+.search-btn {
+    border-radius: 0 20px 20px 0 !important;
+}
+
+.nav-link {
+    font-weight: 500;
+}
+
+.top-header {
+    font-size: 0.85rem;
+    background: #f8f9fa;
+}
+
+.navbar-brand {
+    font-style: italic;
+}
+
+.transition-hover {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.transition-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12) !important;
+}
+
+.card-title {
+    color: #1a1a1a;
 }

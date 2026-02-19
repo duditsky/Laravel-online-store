@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class BasketController extends Controller
 {
@@ -53,41 +54,105 @@ class BasketController extends Controller
         $order = Order::find($orderId);
         return view('product.order', compact('order'));
     }
-    public function basketAdd($productId)
+   public function basketAdd($productId, Request $request)
     {
-        $orderId = session('orderId');
-        if (is_null($orderId)) {
-            $order = Order::create();
-            session(['orderId' => $order->id]);
-        } else {
-            $order = Order::find($orderId);
-        }
-        if ($order->products->contains($productId)) {
-            $prodCount = $order->products()->where('product_id', $productId)->first()->pivot;
-            $prodCount->count++;
-            $prodCount->update();
-        } else {
-            $order->products()->attach($productId);
-        }
-        return redirect()->route('basket');
-    }
-    public function basketRemove($productId)
-    {
-        $orderId = session('orderId');
-        if (is_null($orderId)) {
-            return redirect()->route('basket');
-        }
-        $order = Order::find($orderId);
+        try {
+            $quantity = (int) $request->input('quantity', 1);
+            $orderId = session('orderId');
 
-        if ($order->products->contains($productId)) {
-            $prodCount = $order->products()->where('product_id', $productId)->first()->pivot;
-            if ($prodCount->count < 2) {
-                $order->products()->detach($productId);
+            if (is_null($orderId)) {
+                $order = Order::create();
+                session(['orderId' => $order->id]);
             } else {
-                $prodCount->count--;
-                $prodCount->update();
+                $order = Order::find($orderId);
             }
+
+            if ($order->products->contains($productId)) {
+                $pivotRow = $order->products()->where('product_id', $productId)->first()->pivot;
+                $pivotRow->count += $quantity;
+                $pivotRow->update();
+                $newCount = $pivotRow->count;
+            } else {
+                $order->products()->attach($productId, ['count' => $quantity]);
+                $newCount = $quantity;
+            }
+
+            $order->refresh();
+            $product = Product::find($productId);
+
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'count' => $newCount,
+                    'itemPrice' => number_format($product->price * $newCount, 2),
+                    'totalPrice' => number_format($order->getFullPrice(), 2),
+                    'fullCount' => (int) $order->products()->sum('order_product.count')
+                ]);
+            }
+
+            return redirect()->route('basket')->with('success', 'Product added to cart!');
+            
+        } catch (\Exception $e) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            }
+            return back()->with('error', 'Error: ' . $e->getMessage());
         }
-        return redirect()->route('basket');
+    }
+
+    public function basketRemove($productId, Request $request)
+    {
+        try {
+            $orderId = session('orderId');
+            if (is_null($orderId)) {
+                return response()->json(['success' => false, 'message' => 'Order not found'], 404);
+            }
+
+            $order = Order::find($orderId);
+            $newCount = 0;
+
+            if ($order->products->contains($productId)) {
+                $pivotRow = $order->products()->where('product_id', $productId)->first()->pivot;
+                if ($pivotRow->count < 2) {
+                    $order->products()->detach($productId);
+                    $newCount = 0;
+                } else {
+                    $pivotRow->count--;
+                    $pivotRow->update();
+                    $newCount = $pivotRow->count;
+                }
+            }
+
+            $order->refresh();
+            $product = Product::find($productId);
+
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'count' => $newCount,
+                    'itemPrice' => number_format($product ? $product->price * $newCount : 0, 2),
+                    'totalPrice' => number_format($order->getFullPrice(), 2),
+                    'fullCount' => (int) $order->products()->sum('order_product.count')
+                ]);
+            }
+
+            return redirect()->route('basket');
+
+        } catch (\Exception $e) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            }
+            return back()->with('error', 'Error: ' . $e->getMessage());
+        }
+    }
+    public function basketRemoveAll($productId)
+    {
+        $orderId = session('orderId');
+        if (!is_null($orderId)) {
+            $order = Order::find($orderId);
+            $order->products()->detach($productId);
+        }
+
+        return redirect()->route('basket')->with('warning', 'Product removed from cart.');
     }
 }

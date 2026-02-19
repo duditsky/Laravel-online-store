@@ -3,27 +3,18 @@
 @section('title', 'Products List')
 
 @section('content')
-   
-    <div class="d-flex justify-content-end mb-4">
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Sort by
-            </button>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{route('allProducts', ['sort_by' => 'name', 'sort_order' => 'asc'])}}">Name</a></li>
-                <li><a class="dropdown-item" href="{{route('allProducts', ['sort_by' => 'price', 'sort_order' => 'asc'])}}">Price</a></li>
-            </ul>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 fw-bold">Our Products</h1>
+    @include('components.sort-dropdown')
+</div>
+<div class="row text-center">
+    <h1>All Products</h1>
+    <div class="row mt-4">
+        @foreach($products as $product)
+        <div class="col-md-3 mb-4">
+            @include('product.card', ['product' => $product])
         </div>
+        @endforeach
     </div>
-
-    <div class="row text-center">
-        <h1>All Products</h1>
-        <div class="row mt-4">
-            @foreach($products as $product)
-                <div class="col-md-3 mb-4">
-                    @include('product.card', ['product' => $product])
-                </div>
-            @endforeach
-        </div>
-    </div>
+</div>
 @endsection
