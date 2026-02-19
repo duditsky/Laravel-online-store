@@ -23,7 +23,9 @@
         </a>
         <ul class="dropdown-menu shadow border-0 mt-2">
           <li><a class="dropdown-item py-1" href="tel:+380999999999"><i class="bi bi-telephone-outbound me-2"></i> Call Support</a></li>
-          <li><hr class="dropdown-divider my-1"></li>
+          <li>
+            <hr class="dropdown-divider my-1">
+          </li>
           <li><button class="dropdown-item py-1 text-primary fw-bold" data-bs-toggle="modal" data-bs-target="#callbackModal">Request a Call</button></li>
         </ul>
       </div>
@@ -50,8 +52,14 @@
     <div class="container">
       <div class="row align-items-center">
         <div class="col-lg-3 col-6">
-          <a class="navbar-brand fs-3 fw-bold text-uppercase" href="{{route('home')}}">
-            <span class="text-primary border-bottom border-3 border-primary">Joy</span>Store
+          <a class="navbar-brand fs-4 fw-bold text-uppercase d-flex align-items-center" href="{{route('home')}}" style="text-decoration: none; gap: 6px;">
+            <div class="d-flex align-items-center">
+              <span class="text-primary">Joy</span><span class="text-dark">Store</span>
+            </div>
+            <span class="badge bg-primary text-white fst-italic d-flex align-items-center justify-content-center"
+              style="border-radius: 6px; height: 22px; padding: 0 8px; font-size: 0.55em; margin-top: 1px; letter-spacing: 0.5px;">
+              TECH
+            </span>
           </a>
         </div>
 
@@ -66,10 +74,10 @@
 
         <div class="col-lg-3 col-6 order-2 order-lg-3 text-end">
           <a href="{{ route('basket') }}" class="btn btn-dark position-relative p-2 rounded-3">
-            <i class="bi bi-cpu fs-5 me-1"></i>
+            <i class="bi bi-cart3 fs-5 me-1"></i>
             @php
             $orderId = session('orderId');
-            $totalItems = $orderId ? \App\Models\Order::find($orderId)?->products->sum('pivot.count') : 0;
+            $totalItems = $orderId ? \App\Models\Order::find($orderId)?->products()->sum('order_product.count') : 0;
             @endphp
             <span id="basket-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
               {{ $totalItems ?? 0 }}
@@ -88,12 +96,41 @@
       </button>
       <div class="collapse navbar-collapse" id="categoriesNav">
         <ul class="navbar-nav w-100 justify-content-between text-uppercase small fw-semibold">
-          <li class="nav-item"><a class="nav-link text-white" href="{{route('allProducts')}}"><i class="bi bi-pc-display me-1"></i> All Tech</a></li>
-          <li class="nav-item"><a class="nav-link text-white" href="{{route('categories')}}">PC Components</a></li>
-          <li class="nav-item"><a class="nav-link text-white" href="#">Laptops</a></li>
-          <li class="nav-item"><a class="nav-link text-white" href="#">Gaming Gear</a></li>
-          <li class="nav-item"><a class="nav-link text-info fw-bold" href="#">NEW ARRIVALS</a></li>
-          <li class="nav-item"><a class="nav-link text-warning fw-bold" href="#">HOT DEALS %</a></li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{{route('allProducts')}}">
+              <i class="bi bi-grid-fill me-1"></i> All Tech
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{{route('categories')}}">
+              <i class="bi bi-cpu me-1"></i> PC Components
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link text-white" href="#">
+              <i class="bi bi-laptop me-1"></i> Laptops
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link text-white" href="#">
+              <i class="bi bi-controller me-1"></i> Gaming Gear
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link text-info fw-bold" href="#">
+              <i class="bi bi-stars me-1"></i> NEW ARRIVALS
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link text-danger fw-bold" href="#">
+              <i class="bi bi-fire me-1"></i> HOT DEALS %
+            </a>
+          </li>
         </ul>
       </div>
     </div>
@@ -173,7 +210,7 @@
   <script src="{{ asset('js/CallBackTel.js') }}"></script>
   <script src="{{ asset('js/cart.js') }}"></script>
   @stack('scripts')
-  
+
 </body>
 
 </html>

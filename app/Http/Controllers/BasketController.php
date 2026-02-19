@@ -85,12 +85,14 @@ class BasketController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => "{$product->name} added to cart!",
+                    'count' => $newCount,
+                    'itemPrice' => number_format($product->price * $newCount, 2), 
                     'fullCount' => (int) $order->products()->sum('order_product.count'),
                     'totalPrice' => number_format($order->getFullPrice(), 2)
                 ]);
             }
 
-                       return back()->with('success', 'Product added!');
+            return back()->with('success', 'Product added!');
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
