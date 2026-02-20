@@ -146,61 +146,31 @@
 
     .group:hover img {
         transform: scale(1.05);
+    }/* 1. Налаштування самого зображення */
+    #productCarousel img {
+        /* Додаємо плавний перехід для трансформації */
+        /* 0.6s — час анімації, ease-out — плавний фініш */
+        transition: transform 0.6s ease-out !important; 
+        will-change: transform; /* Підказка браузеру для кращої продуктивності */
     }
-    /* На комп'ютерах (Windows) */
-@media (min-width: 768px) {
-    .card-img-container {
-        height: 250px; /* Фіксована висота для ПК */
-    }
-}
 
-/* На мобільних пристроях */
-@media (max-width: 767px) {
-    .card-img-container {
-        aspect-ratio: 1 / 1; /* Робимо картинку квадратною */
+    /* 2. Ефект при наведенні на КАРТКУ (так зручніше, ніж на саму картинку) */
+    #productCarousel .card:hover img {
+        transform: scale(1.08); /* Трохи збільшуємо */
     }
+
+    /* 3. Плавність перемикання самих слайдів (щоб не було "темноти") */
+    #productCarousel .carousel-item {
+        transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out !important;
+    }
+
+    /* Фікс для кнопок, щоб вони завжди були видимі та клікабельні */
+    .carousel-control-prev, .carousel-control-next {
+        z-index: 15;
+        opacity: 1 !important;
+    }
+
+
     
-    /* Дозволяємо карткам бути великими, але не вилазити за межі */
-    .carousel-item .row {
-        justify-content: center !important;
-    }
-}
-
-/* Ефект при наведенні (опціонально) */
-.group:hover img {
-    transform: scale(1.05);
-}
-
-    /* На комп'ютерах (Windows) */
-    @media (min-width: 768px) {
-        .card-img-container {
-            height: 180px; /* Трохи зменшили, щоб вписати в блок 320px */
-        }
-        .carousel-item .row {
-            padding-left: 350px; /* Звільняємо місце під текст зліва */
-        }
-    }
-
-    /* На мобільних пристроях */
-    @media (max-width: 767px) {
-        .card-img-container {
-            aspect-ratio: 1 / 1;
-        }
-        /* На мобільці текст зверху, тому центруємо товари */
-        .carousel-item .row {
-            justify-content: center !important;
-            padding-left: 0; 
-        }
-        /* Зменшуємо заголовок на мобілці, щоб не заважав */
-        .display-5 {
-            font-size: 1.8rem;
-        }
-    }
-
-    /* Стиль для стрілок при наведенні */
-    .carousel-control-prev:hover, .carousel-control-next:hover {
-        background: rgba(255,255,255,0.4) !important;
-        transition: 0.3s;
-    }
-
+    
     

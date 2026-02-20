@@ -6,76 +6,69 @@
         <div class="col-lg-9">
             <div class="row mb-4">
                 <div class="col-12">
-                    <div class="card border-0 rounded-4 overflow-hidden shadow-sm bg-dark text-white" style="min-height: 450px; position: relative;">
-                        
-                        {{-- ТЕКСТ ТА КНОПКА: Перенесені у самий низ --}}
-                        <div class="card-img-overlay d-flex flex-column justify-content-end p-4" 
-                             style="background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 50%); z-index: 10; pointer-events: none;">
-                            
-                            <div class="d-flex flex-column flex-md-row align-items-md-end justify-content-between gap-3" style="pointer-events: auto;">
-                                <div>
-                                    <h1 class="fw-bold mb-1" style="font-size: 2rem;">Next-Gen <span class="text-primary">Gaming</span></h1>
-                                    <p class="small mb-0 opacity-75 d-none d-md-block">Experience ultimate performance with the newest RTX 50-series hardware.</p>
-                                </div>
-                                <div class="pb-1">
-                                    <a href="{{ route('allProducts') }}" class="btn btn-primary px-5 fw-bold shadow">Shop Now</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="container py-4">
+                    <div class="card border-0 rounded-4 overflow-hidden shadow-sm bg-dark text-white" style="min-height: 400px; position: relative;">
+                        <div class="container pt-4 pb-0">
                             @if($products->count() > 0)
-                            <div id="productCarousel" class="carousel slide" data-bs-ride="false">
+                          <div id="productCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000" data-bs-wrap="true">
                                 <div class="carousel-inner">
-                                    @foreach($products->chunk(3) as $chunk)
+                                    @foreach($products as $product)
                                     <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-                                        <div class="row g-2 g-md-4 justify-content-center flex-nowrap flex-md-wrap overflow-hidden mb-5"> {{-- Додав mb-5, щоб звільнити місце знизу --}}
-                                            @foreach($chunk as $product)
-                                            <div class="col-10 col-md-4 mb-4 flex-shrink-0 flex-md-shrink-1">
-                                                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden bg-white group">
-                                                    <div class="position-relative card-img-container" style="width: 100%;">
-                                                        <img src="{{ $product->image ? asset('storage/img/products/'.$product->image.'.jpg') : asset('img/no-image.png') }}"
-                                                            class="w-100 h-100 p-3 p-md-4"
-                                                            alt="{{ $product->name }}"
-                                                            style="object-fit: contain; transition: transform 0.3s ease;">
+                                        <div class="d-flex justify-content-center">
+                                            <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white" style="width: 70%; min-height: 300px;">
+                                                <div class="position-relative" style="height: 250px; width: 100%;">
+                                                    <img src="{{ $product->image ? asset('storage/img/products/'.$product->image.'.jpg') : asset('img/no-image.png') }}"
+                                                        class="w-100 h-100 p-3"
+                                                        alt="{{ $product->name }}"
+                                                        style="object-fit: contain;">
 
-                                                        <div class="position-absolute top-0 start-0 m-2 w-75" style="z-index: 2;">
-                                                            <span class="badge bg-primary fw-normal text-wrap text-start" style="font-size: 0.7rem; line-height: 1.2; opacity: 0.9;">
-                                                                {{ $product->name }}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="card-body p-3">
-                                                        <div class="d-flex justify-content-between align-items-center">
-                                                            <span class="badge bg-dark fs-6 px-3 py-2 shadow-sm" style="border-radius: 10px;">
-                                                                {{ number_format($product->price, 0, '.', ' ') }} ₴
-                                                            </span>
-                                                        </div>
+                                                    <div class="position-absolute top-0 start-0 m-2 w-75" style="z-index: 2;">
+                                                        <span class="badge bg-primary fw-normal text-wrap text-start" style="font-size: 0.8rem; line-height: 1.2;">
+                                                            {{ $product->name }}
+                                                        </span>
                                                     </div>
                                                 </div>
+
+                                                <div class="card-body p-3 text-center">
+                                                    <span class="badge bg-dark fs-6 px-4 py-2 shadow-sm" style="border-radius: 10px;">
+                                                        {{ number_format($product->price, 0, '.', ' ') }} ₴
+                                                    </span>
+                                                </div>
                                             </div>
-                                            @endforeach
                                         </div>
                                     </div>
                                     @endforeach
                                 </div>
 
-                                {{-- СИНІ КНОПКИ НАВІГАЦІЇ: Тепер їх точно видно --}}
-                                <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev" 
-                                        style="width: 45px; height: 45px; background-color: #0d6efd; border-radius: 50%; top: 40%; transform: translateY(-50%); left: 10px; opacity: 1; border: 2px solid white;">
-                                    <span class="carousel-control-prev-icon" style="width: 20px;"></span>
+                                {{-- Кнопки --}}
+                                <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev"
+                                    style="width: 40px; height: 40px; position: absolute; top: 125px; left: 10px; opacity: 1; z-index: 10;">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"
+                                        style="background-color: #0d6efd; border-radius: 50%; padding: 15px; background-size: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2);"></span>
                                 </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next" 
-                                        style="width: 45px; height: 45px; background-color: #0d6efd; border-radius: 50%; top: 40%; transform: translateY(-50%); right: 10px; opacity: 1; border: 2px solid white;">
-                                    <span class="carousel-control-next-icon" style="width: 20px;"></span>
+                                <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next"
+                                    style="width: 40px; height: 40px; position: absolute; top: 125px; right: 10px; opacity: 1; z-index: 10;">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"
+                                        style="background-color: #0d6efd; border-radius: 50%; padding: 15px; background-size: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2);"></span>
                                 </button>
-                            </div>
-                            @else
-                            <div class="text-center text-white my-5">
-                                <h3>No products found</h3>
                             </div>
                             @endif
+                        </div>
+                        <div class="mt-auto p-4" style="background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%); position: relative; z-index: 1;">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h2 class="fw-bold mb-1" style="font-size: 1.75rem;">
+                                        Next-Gen Gaming <span class="text-primary">Laptops</span>
+                                    </h2>
+                                    <p class="small opacity-75 mb-0 d-none d-md-block">
+                                        Experience ultimate performance with the newest RTX 50-series graphics cards.
+                                    </p>
+                                </div>
+                                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                                    <a href="{{ route('allProducts') }}" class="btn btn-primary px-4 fw-bold shadow-sm">
+                                        Shop Now
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -87,6 +80,7 @@
                     <a href="{{ route('categories') }}" class="text-primary text-decoration-none fw-bold small">View All ></a>
                 </div>
 
+                {{-- Приклад ітерації по категоріях (як у тебе в мега-меню) --}}
                 @foreach($categories->take(6) as $category)
                 <div class="col-md-4 col-6">
                     <div class="card h-100 border-0 shadow-sm hover-shadow transition-all text-center p-3 rounded-4">
@@ -106,11 +100,13 @@
 
         <div class="col-lg-3">
             <div class="sticky-top" style="top: 100px;">
+
                 <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
                     <div class="card-header bg-primary text-white border-0 py-3">
                         <h5 class="mb-0 fw-bold"><i class="bi bi-lightning-fill"></i> Hot Deals</h5>
                     </div>
                     <div class="card-body p-0">
+                        {{-- Тут можна вивести 3-4 акційних товари списком --}}
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item p-3 border-light">
                                 <div class="d-flex align-items-center">
@@ -120,8 +116,12 @@
                                     <div class="flex-grow-1 ms-3">
                                         <h6 class="small fw-bold mb-0">RTX 4090 OC Edition</h6>
                                         <div class="d-flex flex-column">
-                                            <span class="text-muted small text-decoration-line-through" style="font-size: 0.75rem;">$1,599</span>
-                                            <span class="text-danger fw-bold small">${{ number_format(1599 * 0.8, 2) }}</span>
+                                            <span class="text-muted small text-decoration-line-through" style="font-size: 0.75rem;">
+                                                $1,599
+                                            </span>
+                                            <span class="text-danger fw-bold small">
+                                                ${{ number_format(1599 * 0.8, 2) }}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -142,8 +142,10 @@
                     <p class="small opacity-75">Use our configurator to create your dream machine.</p>
                     <a href="#" class="btn btn-sm btn-light fw-bold text-primary">Start Building</a>
                 </div>
+
             </div>
         </div>
+
     </div>
 </div>
 @endsection
