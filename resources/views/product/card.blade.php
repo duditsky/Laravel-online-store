@@ -1,6 +1,6 @@
 <div class="card h-100 border-0 shadow-sm transition-hover" style="border-radius: 15px; overflow: hidden;">
     <div class="position-relative text-center p-3" style="background: #fdfdfd; height: 220px;">
-        <img src="{{ $product->image ? url('img/'.$product->image.'.jpg') : url('img/no-image.jpg') }}"
+        <img src="{{ $product->image ? asset('storage/img/products/'.$product->image.'.jpg') : asset('img/no-image.jpg') }}"
             class="card-img-top w-100 h-100"
             alt="{{ $product->name }}"
             style="object-fit: contain;">

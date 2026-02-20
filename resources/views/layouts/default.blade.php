@@ -19,10 +19,10 @@
     <div class="container d-flex justify-content-between align-items-center">
       <div class="dropdown d-inline-block">
         <a class="nav-link dropdown-toggle p-0 text-dark small" href="#" role="button" data-bs-toggle="dropdown">
-          <i class="bi bi-telephone text-primary"></i> +38 (099) 999-99-99
+          <i class="bi bi-telephone text-primary"></i> +38 (099) 199-47-74
         </a>
         <ul class="dropdown-menu shadow border-0 mt-2">
-          <li><a class="dropdown-item py-1" href="tel:+380999999999"><i class="bi bi-telephone-outbound me-2"></i> Call Support</a></li>
+          <li><a class="dropdown-item py-1" href="tel:+38099199"><i class="bi bi-telephone-outbound me-2"></i> Call Support</a></li>
           <li>
             <hr class="dropdown-divider my-1">
           </li>
@@ -102,10 +102,37 @@
             </a>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{{route('categories')}}">
+          <li class="nav-item mega-menu-item">
+            <a class="nav-link text-white d-flex align-items-center" href="{{route('categories')}}">
               <i class="bi bi-cpu me-1"></i> PC Components
             </a>
+
+            <div class="mega-menu-content shadow-lg">
+              <div class="container py-4">
+                <div class="row g-4 justify-content-start">
+                  @foreach($categories as $category)
+                  <div class="col-md-2 text-center">
+                    <a href="{{ route('category', $category->code) }}" class="category-link text-decoration-none text-dark">
+                      <div class="img-wrapper mb-2 p-2 border rounded-3 bg-light">
+                        @if($category->image)
+                        <img src="{{ asset('storage/img/categories/' . $category->image . '.jpg') }}" alt="{{ $category->name }}" class="img-fluid">
+                        @else
+                        <img src="{{ asset('img/no-image.png') }}" alt="No image" class="img-fluid">
+                        @endif
+                      </div>
+                      <p class="fw-bold small text-uppercase mb-0">{{ $category->name }}</p>
+                    </a>
+                  </div>
+                  @endforeach
+
+                  <div class="col-md-2 text-center">
+                    <a href="{{ route('categories') }}" class="all-cats-btn d-flex flex-column align-items-center justify-content-center h-100 border rounded-3 p-3 text-decoration-none">
+                      <span class="fw-bold text-muted small text-uppercase text-center">See all<br>Components ></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
           </li>
 
           <li class="nav-item">
@@ -136,11 +163,11 @@
     </div>
   </nav>
 
-  <main class="container mt-4 min-vh-100">
-    @yield('content')
-  </main>
-
-  <footer class="bg-dark text-white pt-5 pb-3 mt-5 border-top border-primary border-4">
+<div class="content-wrapper">
+            @yield('content')
+        </div>
+     @include('components.chat-widget')   
+  <footer class="bg-dark text-white pt-5 pb-3 border-top border-primary border-4">
     <div class="container">
       <div class="row">
         <div class="col-md-4 mb-4">

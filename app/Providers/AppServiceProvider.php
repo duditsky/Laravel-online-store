@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Gate;
 use App\Models\User;
+use App\Models\Category;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,6 +33,9 @@ class AppServiceProvider extends ServiceProvider
         });
         Gate::define('admin-role', function (User $user) {
             return $user->role === 3;
+        });
+        View::composer('*', function ($view) {
+            $view->with('categories', Category::get());
         });
     }
 }

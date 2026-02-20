@@ -76,3 +76,75 @@
 .card-title {
     color: #1a1a1a;
 }
+
+/* Робимо позиціонування відносно всього навбару */
+.mega-menu-item {
+    position: static !important;
+}
+
+.mega-menu-content {
+    display: none; /* Ховаємо за замовчуванням */
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: white;
+    z-index: 1050;
+    border-top: 3px solid #0d6efd; /* Твій фірмовий синій */
+    margin-top: 0;
+}
+
+/* Показуємо при наведенні мишки на пункт меню */
+.mega-menu-item:hover .mega-menu-content {
+    display: block;
+}
+
+/* Стилі для обгортки картинки */
+.img-wrapper {
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.img-wrapper img {
+    max-height: 90px;
+    object-fit: contain;
+}
+
+/* Ефект при наведенні на категорію */
+.category-link:hover .img-wrapper {
+    background-color: #f1f1f1 !important;
+    border-color: #0d6efd !important;
+    transform: translateY(-5px);
+}
+
+.category-link:hover p {
+    color: #0d6efd;
+}
+
+/* Кнопка "See all" */
+.all-cats-btn {
+    background-color: #f8f9fa;
+    transition: 0.3s;
+}
+.all-cats-btn:hover {
+    background-color: #0d6efd;
+}
+.all-cats-btn:hover span {
+    color: white !important;
+}
+.hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    .transition-all {
+        transition: all 0.3s ease;
+    }
+    
+
+    .group:hover img {
+        transform: scale(1.05);
+    }
+    

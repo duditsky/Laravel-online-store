@@ -5,7 +5,7 @@
     </div>
 
     <button id="chat-button" class="btn btn-primary rounded-circle shadow-lg p-0 overflow-hidden d-flex align-items-center justify-content-center" onclick="toggleChat()">
-        <img src="{{ asset('img/my-photo.jpg') }}" alt="AI" class="w-100 h-100 object-fit-cover" onerror="this.src='https://ui-avatars.com/api/?name=AI&background=0D6EFD&color=fff'">
+        <img src="{{ asset('storage/img/design/my-photo.jpg') }}" alt="AI" class="w-100 h-100 object-fit-cover" onerror="this.src='https://ui-avatars.com/api/?name=AI&background=0D6EFD&color=fff'">
     </button>
 
     <div id="chat-window" class="card shadow-lg border-0 flex-column overflow-hidden">

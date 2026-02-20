@@ -7,7 +7,7 @@
     <div class="row g-5">
         <div class="col-md-6 text-center">
             <div class="card border-0 shadow-sm p-4" style="border-radius: 20px; background: #fff;">
-                <img src="{{ url('img/'.$product->image.'.jpg') }}"
+                <img src="{{ asset('storage/img/products/'.$product->image.'.jpg') }}"
                     class="img-fluid rounded"
                     alt="{{ $product->name }}"
                     style="max-height: 500px; object-fit: contain;">
