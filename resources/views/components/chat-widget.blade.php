@@ -1,7 +1,7 @@
 
 <div id="chat-widget" class="d-flex flex-column align-items-end">
     <div id="chat-hint" class="shadow-sm border mb-2 px-3 py-2 bg-white rounded-pill text-dark small fw-bold" onclick="toggleChat()">
-        Чим я можу вам допомогти?
+        How can I help you?
     </div>
 
     <button id="chat-button" class="btn btn-primary rounded-circle shadow-lg p-0 overflow-hidden d-flex align-items-center justify-content-center" onclick="toggleChat()">
@@ -10,7 +10,7 @@
 
     <div id="chat-window" class="card shadow-lg border-0 flex-column overflow-hidden">
         <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-3">
-            <h6 class="mb-0 fw-bold">AI Помічник</h6>
+            <h6 class="mb-0 fw-bold">AI Assistant</h6>
             <button type="button" class="btn-close btn-close-white" onclick="toggleChat()"></button>
         </div>
 
