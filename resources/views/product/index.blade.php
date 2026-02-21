@@ -7,21 +7,21 @@
             <div class="row mb-4">
                 <div class="col-12">
                     <div class="card border-0 rounded-4 overflow-hidden shadow-sm bg-black text-white" style="min-height: 400px; position: relative;">
-                        
-                       <div style="
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('{{ asset('storage/img/design/design4.jpg') }}'); 
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.5; 
-    z-index: 0;
-    display: block !important;
-"></div>
+        
+                            <div style="
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                    background-image: url('{{ asset('storage/img/design/design4.jpg') }}'); 
+                                    background-size: cover;
+                                    background-position: center;
+                                    background-repeat: no-repeat;
+                                    opacity: 0.5; 
+                                    z-index: 0;
+                                    display: block !important;
+                                "></div>
 
                         <div class="container pt-4 pb-0" style="position: relative; z-index: 1;">
                             @if($products->count() > 0)

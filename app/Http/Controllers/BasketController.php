@@ -10,14 +10,14 @@ class BasketController extends Controller
 {
     public function basket()
     {
-
         $orderId = session('orderId');
-        if (is_null($orderId)) {
-            return view('product.empty');
-        } else {
-            $order = Order::findOrFail($orderId);
-            return view('product.basket', compact('order'));
+        $order = null;
+
+        if (!is_null($orderId)) {
+            $order = Order::find($orderId);
         }
+
+        return view('product.basket', compact('order'));
     }
     public function basketConfirm(Request $request)
     {
@@ -86,7 +86,7 @@ class BasketController extends Controller
                     'success' => true,
                     'message' => "{$product->name} added to cart!",
                     'count' => $newCount,
-                    'itemPrice' => number_format($product->price * $newCount, 2), 
+                    'itemPrice' => number_format($product->price * $newCount, 2),
                     'fullCount' => (int) $order->products()->sum('order_product.count'),
                     'totalPrice' => number_format($order->getFullPrice(), 2)
                 ]);
