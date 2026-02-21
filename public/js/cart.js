@@ -76,11 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         e.preventDefault();
         const result = await Swal.fire({
-            title: 'Видалити товар?',
+            title: 'Delete item?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#0d6efd',
-            confirmButtonText: 'Так, видалити'
+            confirmButtonText: 'Yes, delete'
         });
 
         if (result.isConfirmed) {
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             } catch (error) {
-                console.error('Помилка видалення:', error);
+                console.error('Error deleting item:', error);
             }
         }
     });
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         } catch (error) {
-            console.error('Помилка додавання:', error);
+            console.error('Error adding item:', error);
         }
     });
 });

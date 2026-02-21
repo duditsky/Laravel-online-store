@@ -170,7 +170,88 @@
         opacity: 1 !important;
     }
 
+/* Контейнер банера */
+.modern-hero {
+    position: relative;
+    height: 400px;
+    width: 100%;
+    overflow: hidden;
+    background: #000; /* Фон, поки вантажиться картинка */
+}
 
+/* Контейнер для картинки (щоб вона могла рухатися всередині) */
+.hero-image-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120%; /* Більша за контейнер для ефекту паралаксу */
+    z-index: 1;
+}
+
+.hero-parallax-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    transition: transform 0.1s ease-out;
+}
+
+/* Градієнт поверх картинки */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 65%, rgba(248,249,250,1) 100%);
+}
+
+/* Текст на банері */
+.hero-text-box {
+    max-width: 600px;
+}
+
+/* Корекція головного контенту */
+.content-wrapper {
+    position: relative;
+    z-index: 10;
+    margin-top: -100px; /* Контент виїжджає на банер */
+    padding-bottom: 50px;
+}
+
+/* Анімації */
+.animate-fadeIn {
+    animation: fadeIn 1s ease-out;
+}
+
+.animate-slideUp {
+    animation: slideUp 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Адаптивність */
+@media (max-width: 768px) {
+    .modern-hero { height: 300px; }
+    .content-wrapper { margin-top: -50px; }
+    .display-4 { font-size: 2rem; }
+}
     
+    .hero-parallax-img {
+    /* Твої старі параметри (width, height, object-fit...) */
     
+    /* Додай це для м'якості: */
+    transition: transform 0.5s cubic-bezier(0.2, 0.4, 0.3, 1);
+    will-change: transform;
+}
     

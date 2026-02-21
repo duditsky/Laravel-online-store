@@ -6,10 +6,26 @@
         <div class="col-lg-9">
             <div class="row mb-4">
                 <div class="col-12">
-                    <div class="card border-0 rounded-4 overflow-hidden shadow-sm bg-dark text-white" style="min-height: 400px; position: relative;">
-                        <div class="container pt-4 pb-0">
+                    <div class="card border-0 rounded-4 overflow-hidden shadow-sm bg-black text-white" style="min-height: 400px; position: relative;">
+                        
+                       <div style="
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('{{ asset('storage/img/design/design4.jpg') }}'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.5; 
+    z-index: 0;
+    display: block !important;
+"></div>
+
+                        <div class="container pt-4 pb-0" style="position: relative; z-index: 1;">
                             @if($products->count() > 0)
-                          <div id="productCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000" data-bs-wrap="true">
+                            <div id="productCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000" data-bs-wrap="true">
                                 <div class="carousel-inner">
                                     @foreach($products as $product)
                                     <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
@@ -53,6 +69,7 @@
                             </div>
                             @endif
                         </div>
+
                         <div class="mt-auto p-4" style="background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%); position: relative; z-index: 1;">
                             <div class="row align-items-center">
                                 <div class="col-md-8">
@@ -80,7 +97,6 @@
                     <a href="{{ route('categories') }}" class="text-primary text-decoration-none fw-bold small">View All ></a>
                 </div>
 
-                {{-- Приклад ітерації по категоріях (як у тебе в мега-меню) --}}
                 @foreach($categories->take(6) as $category)
                 <div class="col-md-4 col-6">
                     <div class="card h-100 border-0 shadow-sm hover-shadow transition-all text-center p-3 rounded-4">
@@ -100,13 +116,11 @@
 
         <div class="col-lg-3">
             <div class="sticky-top" style="top: 100px;">
-
                 <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
                     <div class="card-header bg-primary text-white border-0 py-3">
                         <h5 class="mb-0 fw-bold"><i class="bi bi-lightning-fill"></i> Hot Deals</h5>
                     </div>
                     <div class="card-body p-0">
-                        {{-- Тут можна вивести 3-4 акційних товари списком --}}
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item p-3 border-light">
                                 <div class="d-flex align-items-center">
@@ -142,10 +156,8 @@
                     <p class="small opacity-75">Use our configurator to create your dream machine.</p>
                     <a href="#" class="btn btn-sm btn-light fw-bold text-primary">Start Building</a>
                 </div>
-
             </div>
         </div>
-
     </div>
 </div>
 @endsection

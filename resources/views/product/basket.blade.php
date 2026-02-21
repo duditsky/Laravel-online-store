@@ -5,12 +5,11 @@
 <div class="container py-5">
     <div class="row">
         <div class="col-lg-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4 class="fw-bold mb-0">Shopping Cart</h4>
-                <h6 class="mb-0 text-muted">
-                    <span id="total-items-count">{{ $order->products->sum('pivot.count') }}</span> items
-                </h6>
-            </div>
+            <div class="d-flex justify-content-between align-items-center mb-4 mt-5"> <h4 class="lead text-primary fw-bold mb-0">Shopping Cart</h4>
+    <h6 class="mb-0 text-muted">
+        <span id="total-items-count">{{ $order->products->sum('pivot.count') }}</span> items
+    </h6>
+</div>
             <hr class="my-4">
 
             @if($order->products->count() > 0)
@@ -31,7 +30,7 @@
                             <tr id="row-{{ $product->id }}">
                                 <td class="px-4 py-3">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{ asset('img/'.$product->image.'.jpg') }}"
+                                        <img src="{{ asset('storage/img/products/' . $product->image . '.jpg') }}"
                                             class="rounded-3 me-3"
                                             style="width: 70px; height: 70px; object-fit: cover;" alt="">
                                         <div>

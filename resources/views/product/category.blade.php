@@ -4,11 +4,9 @@
 
 @section('content')
 <div class="container pt-3 pb-5">
-    <div class="text-center mb-4">
-        <h4 class="h2 fw-bold mb-2">{{ $category->name }}</h4>
-        <p class="lead text-muted mb-3">{{ $category->description }}</p>
-        @include('components.sort-dropdown')
-    </div>
+    <div class="text-center mb-4 mt-5"> <p class="lead text-primary fw-bold mb-3">{{ $category->description }}</p>
+    @include('components.sort-dropdown')
+</div>
 
     <div class="row g-4 justify-content-center">
         @forelse($category->products as $product)

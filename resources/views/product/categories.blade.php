@@ -4,11 +4,7 @@
 
 @section('content')
 <div class="container py-5">
-    <h4 class="text-center mb-5" style="font-weight: 700; color: #2c3e50; text-transform: uppercase; letter-spacing: 2px;">
-        Browse Categories
-    </h4>
-
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         @foreach ($categories as $category)
         <div class="col">
             <div class="card h-100 shadow-sm border-0 transition-hover" style="border-radius: 12px; overflow: hidden;">

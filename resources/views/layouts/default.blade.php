@@ -162,7 +162,30 @@
       </div>
     </div>
   </nav>
+  
 
+@if(Route::is('home')) 
+    <div class="modern-hero">
+        <div class="hero-image-container">
+            <img src="{{ asset('storage/img/design/design.3.jpg') }}" alt="Tech Banner" class="hero-parallax-img">
+        </div>
+        <div class="hero-overlay">
+            <div class="container h-100 d-flex align-items-center">
+                </div>
+        </div>
+    </div>
+@else
+    <div class="modern-hero" style="height: 150px;">
+        <div class="hero-image-container">
+            <img src="{{ asset('storage/img/design/design.3.jpg') }}" alt="Tech Banner" class="hero-parallax-img">
+        </div>
+        <div class="hero-overlay">
+            <div class="container h-100 d-flex align-items-center">
+                </div>
+        </div>
+    </div>
+@endif
+  
 <div class="content-wrapper">
             @yield('content')
         </div>
@@ -236,6 +259,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="{{ asset('js/CallBackTel.js') }}"></script>
   <script src="{{ asset('js/cart.js') }}"></script>
+  <script src="{{ asset('js/main.js') }}"></script>
   @stack('scripts')
 
 </body>

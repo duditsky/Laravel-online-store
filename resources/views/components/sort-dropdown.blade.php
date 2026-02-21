@@ -1,5 +1,5 @@
 <div class="dropdown">
-    <button class="btn btn-outline-dark dropdown-toggle rounded-pill px-4 shadow-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <button class="btn btn-outline-primary dropdown-toggle rounded-pill px-4 shadow-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="bi bi-sort-down"></i> 
         {{-- Динамічна назва на кнопці --}}
         @switch(request('sort'))
