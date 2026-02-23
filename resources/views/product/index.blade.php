@@ -7,7 +7,7 @@
             <div class="row mb-4">
                 <div class="col-12">
                     <div class="card border-0 rounded-4 overflow-hidden shadow-sm bg-black text-white" style="min-height: 400px; position: relative;">
-                        
+
                         <div style="
                             position: absolute;
                             top: 0;

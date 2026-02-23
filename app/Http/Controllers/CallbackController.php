@@ -30,9 +30,8 @@ class CallbackController extends Controller
             'phone'  => $cleanPhone,
             'status' => 'new'
         ]);
-
-        $token = env('TELEGRAM_BOT_TOKEN');
-        $chatId = env('TELEGRAM_CHAT_ID');
+        $token = config('services.telegram.token');
+        $chatId = config('services.telegram.chat_id');
 
         if ($token && $chatId) {
             $text = "🔔 *New Callback Request*\n\n";
@@ -69,7 +68,7 @@ class CallbackController extends Controller
             $chatId = $callbackQuery['message']['chat']['id'];
             $messageId = $callbackQuery['message']['message_id'];
             $callbackQueryId = $callbackQuery['id'];
-            $token = env('TELEGRAM_BOT_TOKEN');
+            $token = config('services.telegram.token');
 
             if (str_starts_with($data, 'complete_')) {
                 $id = str_replace('complete_', '', $data);
