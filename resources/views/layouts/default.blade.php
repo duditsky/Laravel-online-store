@@ -259,7 +259,9 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="{{ asset('js/CallBackTel.js') }}"></script>
   <script src="{{ asset('js/cart.js') }}"></script>
+  <script src="{{ asset('js/chat.js') }}"></script>
   <script src="{{ asset('js/main.js') }}"></script>
+  
   @stack('scripts')
 
 </body>
