@@ -22,7 +22,7 @@
           <i class="bi bi-telephone text-primary"></i> +38 (099) 199-47-74
         </a>
         <ul class="dropdown-menu shadow border-0 mt-2">
-          <li><a class="dropdown-item py-1" href="tel:+38099199"><i class="bi bi-telephone-outbound me-2"></i> Call Support</a></li>
+          <li><a class="dropdown-item py-1" href="tel:+380991994774"><i class="bi bi-telephone-outbound me-2"></i> Call Support</a></li>
           <li>
             <hr class="dropdown-divider my-1">
           </li>
