@@ -19,41 +19,8 @@ class BasketController extends Controller
 
         return view('product.basket', compact('order'));
     }
-    public function basketConfirm(Request $request)
-    {
-        $orderId = session('orderId');
-        if (is_null($orderId)) {
-            return redirect()->route('home');
-        }
-        $user = $request->user();
-        $order = Order::find($orderId);
-        $order->name = $request->name;
-        $order->phone = $request->phone;
-        $order->address = $request->address;
-        $order->shipping_method = $request->shipping_method;
-        $order->payment_method = $request->payment_method;
-        $order->status = 1;
-        if (!$user) {
-            $order->user_id = 1;
-        } else {
-            $order->user_id = $user->id;
-        }
+    
 
-        $order->save();
-        session()->forget('orderId');
-        return redirect()->route('home');
-    }
-
-
-    public function basketPlace()
-    {
-        $orderId = session('orderId');
-        if (is_null($orderId)) {
-            return redirect()->route('home');
-        }
-        $order = Order::find($orderId);
-        return view('product.order', compact('order'));
-    }
     public function basketAdd($productId, Request $request)
     {
         try {
@@ -142,7 +109,7 @@ class BasketController extends Controller
             return back()->with('error', 'Error: ' . $e->getMessage());
         }
     }
-    public function basketRemoveAll($productId, Request $request) // Додай Request!
+    public function basketRemoveAll($productId, Request $request) 
     {
         $orderId = session('orderId');
         if (!is_null($orderId)) {
@@ -161,4 +128,6 @@ class BasketController extends Controller
 
         return redirect()->route('basket');
     }
+
+    
 }

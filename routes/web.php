@@ -7,12 +7,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CallbackController;
+use App\Http\Controllers\OrderController;
 
 
 Route::middleware(['throttle:onlineStore'])->group(function () {
 
     Route::get('/chat', ChatController::class);
-   
+
     Route::get('/all', [ProductController::class, 'allProducts'])->name('allProducts');
 
     Route::middleware('guest')->group(function () {
@@ -25,11 +26,11 @@ Route::middleware(['throttle:onlineStore'])->group(function () {
 
     Route::get('/basket', [BasketController::class, 'basket'])->name('basket');
     Route::post('/basket/add/{id}', [BasketController::class, 'basketAdd'])->name('basket.add');
-    Route::get('/basket/place', [BasketController::class, 'basketPlace'])->name('basket.place');
     Route::post('/basket/remove/{id}', [BasketController::class, 'basketRemove'])->name('basket.remove');
     Route::post('/basket/remove-all/{product}', [BasketController::class, 'basketRemoveAll'])->name('basket.remove-all');
 
-
+    Route::get('/basket/place', [OrderController::class, 'orderPlace'])->name('order.place');
+    Route::post('/basket/place', [OrderController::class, 'orderConfirm'])->name('order.confirm');
 
     Route::middleware('auth')->group(function () {
 
@@ -41,7 +42,7 @@ Route::middleware(['throttle:onlineStore'])->group(function () {
 
 
 
-        Route::post('/basket/place', [BasketController::class, 'basketConfirm'])->name('basket.confirm');
+
 
         Route::any('/posts', [PostController::class, 'index'])->name('post.home');
         Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');

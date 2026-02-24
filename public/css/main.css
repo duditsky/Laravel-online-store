@@ -254,4 +254,30 @@
     transition: transform 0.5s cubic-bezier(0.2, 0.4, 0.3, 1);
     will-change: transform;
 }
+
+  /* Кастомні стилі для сучасного вигляду */
+    body {
+        background-color: #f8f9fa; /* Світло-сірий фон як у Stripe/Apple */
+    }
+    .form-control:focus, .form-select:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1);
+    }
+    .form-control, .form-select {
+        border-radius: 10px;
+        padding: 12px;
+    }
+    .card {
+        border-radius: 16px;
+    }
+    .btn-dark {
+        border-radius: 10px;
+        transition: transform 0.2s;
+    }
+    .btn-dark:hover {
+        transform: translateY(-2px);
+    }
+    .list-group-item {
+        border-bottom: 1px solid #f0f0f0;
+    }
     
