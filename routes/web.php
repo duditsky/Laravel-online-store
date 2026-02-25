@@ -36,15 +36,15 @@ Route::middleware(['throttle:onlineStore'])->group(function () {
 
 
         Route::get('/logout', [UserController::class, 'logOut'])->name('logout');
-        Route::get('/order', [UserController::class, 'orders'])->name('orders');
-        Route::get('/orders', [UserController::class, 'allOrders'])->name('all.orders');
-        Route::put('orders/{order}/status', [UserController::class, 'changeStatus'])->name('status.orders');
+        Route::get('/order', [OrderController::class, 'orders'])->name('orders');
+        Route::get('/orders', [OrderController::class, 'allOrders'])->name('all.orders');
+        Route::put('orders/{order}/status', [OrderController::class, 'changeStatus'])->name('status.orders');
 
 
 
 
 
-        Route::any('/posts', [PostController::class, 'index'])->name('post.home');
+        Route::any('/posts', [PostController::class, 'index'])->name('post.index');
         Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
         Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
         Route::put('/posts/{id}', [PostController::class, 'update'])->name('posts.update');

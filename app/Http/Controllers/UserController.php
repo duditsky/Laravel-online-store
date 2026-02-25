@@ -109,29 +109,9 @@ class UserController extends Controller
       : back()->withErrors(['email' => [__($status)]]);
   }
 
-  public function orders(Request $request)
-  {
-    $user = $request->user();
-    $orders = $user->orders;
+ 
 
-    return view('user.orderPage', compact('orders'));
-  }
+  
 
-  public function allOrders(Request $request)
-  {
-    $users = User::with('orders')->get();
-
-    return view('user.allOrderPage', compact('users'));
-  }
-
-  public function changeStatus(Request $request, Order $order)
-  {
-    $request->validate([
-      'status' => 'required|in:1,2,3,4',
-    ]);
-
-    $order->status = $request->status;
-    $order->save();
-    return redirect()->route('all.orders')->with('success', 'Status updated successfully!');
-  }
+  
 }

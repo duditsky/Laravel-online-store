@@ -11,15 +11,15 @@ use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
-
     public function index()
     {
         if (Gate::denies('admin-role')) {
             abort(403);
         }
-        $posts = Post::all();
 
-        return view('post.index', ['posts' => $posts]);
+        $posts = Post::with(['user', 'product'])->latest()->paginate(15);
+
+        return view('post.index', compact('posts'));
     }
     public function create()
     {

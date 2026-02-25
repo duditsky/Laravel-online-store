@@ -1,43 +1,33 @@
+/* =========================================
+   1. ГЛОБАЛЬНІ НАЛАШТУВАННЯ ТА ЗМІННІ
+   ========================================= */
 :root {
     --main-color: #ffc107;
+    --primary-blue: #0d6efd;
+    --success-green: #28a745;
+    --bg-light: #f8f9fa;
 }
 
-.search-input {
-    border-radius: 20px 0 0 20px !important;
+body {
+    background-color: var(--bg-light);
+    font-family: 'Inter', sans-serif; /* Якщо підключено */
 }
 
-.search-btn {
-    border-radius: 0 20px 20px 0 !important;
-}
-
-.nav-link {
-    font-weight: 500;
-}
-
+/* =========================================
+   2. ШАПКА ТА НАВІГАЦІЯ (NAVBAR)
+   ========================================= */
 .top-header {
     font-size: 0.85rem;
-    background: #f8f9fa;
+    background: var(--bg-light);
 }
 
 .navbar-brand {
     font-style: italic;
+    font-weight: bold;
 }
 
-.transition-hover {
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
-
-.transition-hover:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12) !important;
-}
-
-.card-title {
-    color: #1a1a1a;
-}
-
-:root {
-    --main-color: #ffc107;
+.nav-link {
+    font-weight: 500;
 }
 
 /* Пошукова панель */
@@ -49,57 +39,94 @@
     border-radius: 0 20px 20px 0 !important;
 }
 
-/* Навігація */
-.nav-link {
-    font-weight: 500;
-}
-
-.top-header {
-    font-size: 0.85rem;
-    background: #f8f9fa;
-}
-
-.navbar-brand {
-    font-style: italic;
-}
-
-/* Анімація карток товарів */
-.transition-hover {
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
-
-.transition-hover:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12) !important;
-}
-
-.card-title {
-    color: #1a1a1a;
-}
-
-/* Робимо позиціонування відносно всього навбару */
+/* Мега-меню */
 .mega-menu-item {
     position: static !important;
 }
 
 .mega-menu-content {
-    display: none; /* Ховаємо за замовчуванням */
+    display: none;
     position: absolute;
     left: 0;
     right: 0;
     width: 100%;
     background: white;
     z-index: 1050;
-    border-top: 3px solid #0d6efd; /* Твій фірмовий синій */
-    margin-top: 0;
+    border-top: 3px solid var(--primary-blue);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-/* Показуємо при наведенні мишки на пункт меню */
 .mega-menu-item:hover .mega-menu-content {
     display: block;
 }
 
-/* Стилі для обгортки картинки */
+/* =========================================
+   3. ГОРОВНИЙ БАНЕР (HERO SECTION)
+   ========================================= */
+.modern-hero {
+    position: relative;
+    height: 400px;
+    width: 100%;
+    overflow: hidden;
+    background: #000;
+}
+
+.hero-image-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120%;
+    z-index: 1;
+}
+
+.hero-parallax-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    will-change: transform;
+    transition: transform 0.5s cubic-bezier(0.2, 0.4, 0.3, 1);
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 65%, var(--bg-light) 100%);
+}
+
+.content-wrapper {
+    position: relative;
+    z-index: 10;
+    margin-top: -100px;
+    padding-bottom: 50px;
+}
+
+/* =========================================
+   4. КАРТКИ ТОВАРІВ ТА КАТЕГОРІЙ
+   ========================================= */
+.card {
+    border-radius: 16px;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+/* Ефект при наведенні на будь-яку картку */
+.card:hover, .transition-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12) !important;
+}
+
+.card-title {
+    color: #1a1a1a;
+    font-weight: 600;
+}
+
+/* Стилі категорій */
 .img-wrapper {
     height: 120px;
     display: flex;
@@ -113,122 +140,76 @@
     object-fit: contain;
 }
 
-/* Ефект при наведенні на категорію */
 .category-link:hover .img-wrapper {
     background-color: #f1f1f1 !important;
-    border-color: #0d6efd !important;
+    border-color: var(--primary-blue) !important;
     transform: translateY(-5px);
 }
 
-.category-link:hover p {
-    color: #0d6efd;
+/* Слайдер товарів */
+#productCarousel img {
+    transition: transform 0.6s ease-out !important;
+    will-change: transform;
 }
 
-/* Кнопка "See all" */
-.all-cats-btn {
-    background-color: #f8f9fa;
-    transition: 0.3s;
-}
-.all-cats-btn:hover {
-    background-color: #0d6efd;
-}
-.all-cats-btn:hover span {
-    color: white !important;
-}
-.hover-shadow:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
-    }
-    .transition-all {
-        transition: all 0.3s ease;
-    }
-    
-
-    .group:hover img {
-        transform: scale(1.05);
-    }/* 1. Налаштування самого зображення */
-    #productCarousel img {
-        /* Додаємо плавний перехід для трансформації */
-        /* 0.6s — час анімації, ease-out — плавний фініш */
-        transition: transform 0.6s ease-out !important; 
-        will-change: transform; /* Підказка браузеру для кращої продуктивності */
-    }
-
-    /* 2. Ефект при наведенні на КАРТКУ (так зручніше, ніж на саму картинку) */
-    #productCarousel .card:hover img {
-        transform: scale(1.08); /* Трохи збільшуємо */
-    }
-
-    /* 3. Плавність перемикання самих слайдів (щоб не було "темноти") */
-    #productCarousel .carousel-item {
-        transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out !important;
-    }
-
-    /* Фікс для кнопок, щоб вони завжди були видимі та клікабельні */
-    .carousel-control-prev, .carousel-control-next {
-        z-index: 15;
-        opacity: 1 !important;
-    }
-
-/* Контейнер банера */
-.modern-hero {
-    position: relative;
-    height: 400px;
-    width: 100%;
-    overflow: hidden;
-    background: #000; /* Фон, поки вантажиться картинка */
+#productCarousel .card:hover img {
+    transform: scale(1.08);
 }
 
-/* Контейнер для картинки (щоб вона могла рухатися всередині) */
-.hero-image-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 120%; /* Більша за контейнер для ефекту паралаксу */
-    z-index: 1;
+/* =========================================
+   5. СТОРІНКА ЗАМОВЛЕНЬ ТА ФОРМИ
+   ========================================= */
+.rounded-4 {
+    border-radius: 1.25rem !important;
 }
 
-.hero-parallax-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    transition: transform 0.1s ease-out;
+.form-control, .form-select {
+    border-radius: 10px;
+    padding: 12px;
 }
 
-/* Градієнт поверх картинки */
-.hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
-    background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 65%, rgba(248,249,250,1) 100%);
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1);
 }
 
-/* Текст на банері */
-.hero-text-box {
-    max-width: 600px;
+.progress-bar {
+    transition: width 1s ease-in-out;
 }
 
-/* Корекція головного контенту */
-.content-wrapper {
-    position: relative;
-    z-index: 10;
-    margin-top: -100px; /* Контент виїжджає на банер */
-    padding-bottom: 50px;
+.list-group-item {
+    transition: background 0.2s;
+    border-bottom: 1px solid #f0f0f0;
 }
 
-/* Анімації */
-.animate-fadeIn {
-    animation: fadeIn 1s ease-out;
+.list-group-item:hover {
+    background-color: #fafafa;
 }
 
-.animate-slideUp {
-    animation: slideUp 0.8s ease-out;
+.list-group-item:last-child {
+    border-bottom: 0;
 }
+
+/* Кнопки */
+.btn-dark, .btn-success {
+    border-radius: 10px;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.btn-dark:hover, .btn-success:hover {
+    transform: translateY(-2px);
+}
+
+.btn-success {
+    background-color: var(--success-green);
+    border: none;
+}
+
+/* =========================================
+   6. АНІМАЦІЇ
+   ========================================= */
+.animate-fadeIn { animation: fadeIn 1s ease-out; }
+.animate-slideUp { animation: slideUp 0.8s ease-out; }
 
 @keyframes fadeIn {
     from { opacity: 0; }
@@ -246,38 +227,196 @@
     .content-wrapper { margin-top: -50px; }
     .display-4 { font-size: 2rem; }
 }
-    
-    .hero-parallax-img {
-    /* Твої старі параметри (width, height, object-fit...) */
-    
-    /* Додай це для м'якості: */
-    transition: transform 0.5s cubic-bezier(0.2, 0.4, 0.3, 1);
-    will-change: transform;
+/* ============================================================
+   7. СТИЛІ ДЛЯ АДМІНПАНЕЛІ (ADMIN ORDERS MANAGEMENT)
+   ============================================================ */
+
+/* Заголовки адмінки */
+.admin-title { font-weight: 800; color: #1a1a1a; }
+.admin-subtitle { font-size: 0.9rem; }
+.admin-stats-badge .badge { background: white; color: #333; border: 1px solid #ddd; padding: 10px 15px; border-radius: 8px; }
+
+/* Картки статистики (Dashboard Stats) */
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid transparent;
+    transition: transform 0.3s;
+}
+.stat-card:hover { transform: translateY(-5px); }
+.stat-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 5px; }
+.stat-value { font-size: 1.5rem; font-weight: 800; }
+.highlight-warning { border-left: 4px solid #ffc107 !important; }
+
+/* Картка користувача (User Block) */
+.admin-user-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    border: none;
+}
+.admin-card-header {
+    background: #212529;
+    color: white;
+    padding: 15px 25px;
 }
 
-  /* Кастомні стилі для сучасного вигляду */
-    body {
-        background-color: #f8f9fa; /* Світло-сірий фон як у Stripe/Apple */
-    }
-    .form-control:focus, .form-select:focus {
-        border-color: #0d6efd;
-        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1);
-    }
-    .form-control, .form-select {
-        border-radius: 10px;
-        padding: 12px;
-    }
-    .card {
-        border-radius: 16px;
-    }
-    .btn-dark {
-        border-radius: 10px;
-        transition: transform 0.2s;
-    }
-    .btn-dark:hover {
-        transform: translateY(-2px);
-    }
-    .list-group-item {
-        border-bottom: 1px solid #f0f0f0;
-    }
-    
+/* Стилізація таблиці замовлень */
+.admin-table thead th {
+    background: #f8f9fa;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    padding: 15px;
+    color: #6c757d;
+}
+.admin-table tbody td { padding: 15px; border-bottom: 1px solid #f1f1f1; }
+.order-date { font-size: 0.8rem; color: #999; }
+.product-tag {
+    display: inline-block;
+    background: #f1f3f5;
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-size: 0.75rem;
+    margin-right: 4px;
+    color: #495057;
+}
+
+/* Статус-бейджи (Status Badges) */
+.status-badge {
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-block;
+}
+.st-new { background: #e9ecef; color: #495057; }
+.st-pending { background: #d1ecf1; color: #0c5460; }
+.st-shipped { background: #fff3cd; color: #856404; }
+.st-completed { background: #d4edda; color: #155724; }
+.st-cancelled { background: #f8d7da; color: #721c24; }
+
+/* Форма управління (Management Form) */
+.admin-status-form { display: flex; gap: 8px; justify-content: flex-end; }
+.status-select {
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    padding: 5px 10px;
+    font-size: 0.85rem;
+    background: #fdfdfd;
+}
+.admin-btn-update {
+    background: #333;
+    color: white;
+    border: none;
+    padding: 6px 15px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    transition: 0.2s;
+}
+.admin-btn-update:hover { background: #000; transform: scale(1.05); }
+
+/* Порожній стан */
+.empty-orders { color: #ccc; font-style: italic; }
+
+
+   /* ============================================================
+   8. СТИЛІ ДЛЯ СТОРІНКИ ВІДГУКІВ (REVIEWS MANAGEMENT)
+   ============================================================ */
+
+.review-admin-card {
+    transition: all 0.3s ease;
+}
+
+.review-admin-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08) !important;
+}
+
+.review-content-box {
+    border-left: 4px solid var(--main-color);
+    min-height: 80px;
+}
+
+.review-admin-card .btn-sm {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Іконки квот для краси */
+.bi-quote {
+    line-height: 1;
+}
+
+/* Виправлення стандартного відображення кнопок у формах */
+.btn-link.link-danger {
+    text-decoration: none;
+    padding: 0;
+}
+/* ============================================================
+   ADMIN REVIEWS STYLES
+   ============================================================ */
+
+/* Робимо головний контейнер прозорим, щоб бачити фон сайту */
+.admin-container {
+    background: transparent !important;
+}
+
+/* Стиль заголовка (білий текст з тінню, щоб не зливався) */
+.admin-title {
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-weight: 800;
+}
+
+/* Картка відгуку */
+.review-admin-card {
+    background: rgba(255, 255, 255, 0.9); /* Напівпрозорий білий */
+    backdrop-filter: blur(10px);
+    border-radius: 15px !important;
+    transition: transform 0.2s ease;
+}
+
+.review-admin-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Бокова панель з інфо про клієнта */
+.admin-container .border-end {
+    border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Бокс з текстом відгуку */
+.review-content-box {
+    background-color: #f8f9fa !important;
+    border-left: 4px solid var(--main-color, #0d6efd);
+    min-height: 100px;
+}
+
+/* ============================================================
+   ФІКС ГІГАНТСЬКОЇ ПАГІНАЦІЇ (Стрілки)
+   ============================================================ */
+.admin-pagination svg {
+    width: 20px !important;
+    height: 20px !important;
+    display: inline-block;
+}
+
+.admin-pagination nav div:first-child {
+    display: none; /* Ховаємо напис "Showing 1 to 10..." */
+}
+
+.admin-pagination .pagination {
+    margin-top: 20px;
+}
+
+/* Додатково для кнопок пагінації */
+.admin-pagination .page-link {
+    padding: 8px 16px;
+    border-radius: 8px;
+    margin: 0 3px;
+    color: #333;
+}

@@ -16,4 +16,5 @@ window.addEventListener('scroll', function() {
             img.style.transform = `translate3d(0, ${position}px, 0)`;
         }
     }
+    
 });

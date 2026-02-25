@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\User;
 
 use Illuminate\Http\Request;
 
@@ -55,7 +56,36 @@ class OrderController extends Controller
         $order->save();
 
         session()->forget('orderId');
-        
+
         return redirect()->route('home')->with('success', 'Order confirmed! Thank you.');
     }
+    public function orders(Request $request)
+    {
+        $orders = $request->user()->orders()
+            ->with(['products', 'posts'])
+            ->latest()
+            ->get();
+
+        return view('order.orderPage', compact('orders'));
+    }
+    public function allOrders(Request $request)
+    {
+        $users = User::with(['orders.products'])
+            ->whereHas('orders')
+            ->latest() 
+            ->paginate(10); 
+
+        return view('order.allOrderPage', compact('users'));
+    }
+    public function changeStatus(Request $request, Order $order)
+{
+        $request->validate([
+        'status' => 'required|in:0,1,2,3,4',
+    ]);
+
+        $order->status = $request->status;
+    $order->save();
+
+       return back()->with('success', 'Order #' . $order->id . ' status updated to ' . $order->status);
+}
 }

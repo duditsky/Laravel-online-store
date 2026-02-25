@@ -35,14 +35,50 @@
           <a class="nav-link dropdown-toggle fw-bold small" href="#" role="button" data-bs-toggle="dropdown">
             <i class="bi bi-person-check"></i> {{ auth()->user()->name }}
           </a>
-          <ul class="dropdown-menu dropdown-menu-end shadow border-0">
-            <li><a class="dropdown-item" href="{{ auth()->user()->can('admin-role') ? route('all.orders') : route('orders') }}">Dashboard</a></li>
-            <li><a class="dropdown-item text-danger" href="{{ route('logout') }}">Logout</a></li>
+
+          <ul class="dropdown-menu dropdown-menu-end shadow border-0 py-2 mt-2" style="border-radius: 12px; min-width: 240px;">
+
+            @if(auth()->user()->can('admin-role'))
+            <li class="dropdown-header small text-uppercase fw-bold text-primary d-flex align-items-center" style="font-size: 0.7rem; letter-spacing: 1px; padding-bottom: 5px;">
+              <i class="bi bi-shield-lock-fill me-2"></i> Admin Panel
+            </li>
+
+            <li>
+              <a class="dropdown-item py-2 fw-semibold" href="{{ route('all.orders') }}">
+                <i class="bi bi-ui-checks me-2 text-primary"></i> Order Processing
+              </a>
+            </li>
+
+            <li>
+              <a class="dropdown-item py-2 fw-semibold" href="{{ route('post.index') }}">
+                <i class="bi bi-chat-quote me-2 text-primary"></i> Review Moderation
+              </a>
+            </li>
+            @else
+            <li class="dropdown-header small text-uppercase fw-bold opacity-50" style="font-size: 0.6rem;">My Account</li>
+            <li>
+              <a class="dropdown-item py-2" href="{{ route('orders') }}">
+                <i class="bi bi-bag me-2 opacity-75"></i> My Orders history
+              </a>
+            </li>
+            @endif
+
+            <li>
+              <hr class="dropdown-divider opacity-50">
+            </li>
+
+            <li>
+              <a class="dropdown-item text-danger py-2" href="{{ route('logout') }}">
+                <i class="bi bi-box-arrow-right me-2"></i> Logout
+              </a>
+            </li>
           </ul>
         </div>
         @else
-        <a href="{{ route('login') }}" class="text-decoration-none text-dark me-3 small fw-bold">Login</a>
-        <a href="{{ route('register.create') }}" class="btn btn-sm btn-outline-dark fw-bold" style="font-size: 0.75rem;">Join</a>
+        <div class="d-flex align-items-center">
+          <a href="{{ route('login') }}" class="text-decoration-none text-dark me-3 small fw-bold">Login</a>
+          <a href="{{ route('register.create') }}" class="btn btn-sm btn-outline-dark fw-bold px-3 rounded-pill shadow-sm" style="font-size: 0.75rem;">Join</a>
+        </div>
         @endauth
       </div>
     </div>
@@ -162,34 +198,34 @@
       </div>
     </div>
   </nav>
-  
 
-@if(Route::is('home')) 
-    <div class="modern-hero">
-        <div class="hero-image-container">
-            <img src="{{ asset('storage/img/design/design.3.jpg') }}" alt="Tech Banner" class="hero-parallax-img">
-        </div>
-        <div class="hero-overlay">
-            <div class="container h-100 d-flex align-items-center">
-                </div>
-        </div>
+
+  @if(Route::is('home'))
+  <div class="modern-hero">
+    <div class="hero-image-container">
+      <img src="{{ asset('storage/img/design/design.3.jpg') }}" alt="Tech Banner" class="hero-parallax-img">
     </div>
-@else
-    <div class="modern-hero" style="height: 150px;">
-        <div class="hero-image-container">
-            <img src="{{ asset('storage/img/design/design.3.jpg') }}" alt="Tech Banner" class="hero-parallax-img">
-        </div>
-        <div class="hero-overlay">
-            <div class="container h-100 d-flex align-items-center">
-                </div>
-        </div>
+    <div class="hero-overlay">
+      <div class="container h-100 d-flex align-items-center">
+      </div>
     </div>
-@endif
-  
-<div class="content-wrapper">
-            @yield('content')
-        </div>
-     @include('components.chat-widget')   
+  </div>
+  @else
+  <div class="modern-hero" style="height: 150px;">
+    <div class="hero-image-container">
+      <img src="{{ asset('storage/img/design/design.3.jpg') }}" alt="Tech Banner" class="hero-parallax-img">
+    </div>
+    <div class="hero-overlay">
+      <div class="container h-100 d-flex align-items-center">
+      </div>
+    </div>
+  </div>
+  @endif
+
+  <div class="content-wrapper">
+    @yield('content')
+  </div>
+  @include('components.chat-widget')
   <footer class="bg-dark text-white pt-5 pb-3 border-top border-primary border-4">
     <div class="container">
       <div class="row">
@@ -261,7 +297,7 @@
   <script src="{{ asset('js/cart.js') }}"></script>
   <script src="{{ asset('js/chat.js') }}"></script>
   <script src="{{ asset('js/main.js') }}"></script>
-  
+
   @stack('scripts')
 
 </body>
