@@ -13,14 +13,9 @@ class ClearEmptyOrders extends Command
      */
     protected $signature = 'app:clear-empty-orders';
 
-    /**
-     * Опис команди, який відображається у списку artisan.
-     */
-    protected $description = 'Delete abandoned orders (carts) that have not been confirmed for 24 hours';
+        protected $description = 'Delete abandoned orders (carts) that have not been confirmed for 24 hours';
 
-    /**
-     * Основна логіка виконання команди.
-     */
+    
     public function handle()
     {
 

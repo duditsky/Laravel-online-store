@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // 1. ПЛЮС ТА МІНУС (Оновлення кількості)
     document.addEventListener('click', async (e) => {
         const button = e.target.closest('.cart-update-btn');
         if (!button) return;
@@ -9,14 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const url = button.getAttribute('data-url');
         const productId = button.getAttribute('data-id');
 
-        // Знаходимо всі елементи для оновлення
         const countSpan = document.getElementById(`count-${productId}`);
         const itemPriceSpan = document.getElementById(`item-price-${productId}`);
         const totalAmountSpan = document.getElementById('total-amount');
         const basketBadge = document.getElementById('basket-count');
         const totalItemsHeader = document.getElementById('total-items-count');
 
-        button.disabled = true; // Блокуємо кнопку, щоб не спамили
+        button.disabled = true;
 
         try {
             const response = await fetch(url, {
@@ -31,25 +29,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
 
             if (data.success) {
-                // Якщо товар видалено (кількість 0)
                 if (data.count === 0) {
                     const row = document.getElementById(`row-${productId}`);
                     if (row) row.remove();
-                    // Якщо кошик став порожнім - перезавантажуємо сторінку
                     if (document.querySelectorAll('tbody tr').length === 0) {
                         location.reload();
                         return;
                     }
                 }
 
-                // Оновлюємо цифри в рядку (Кількість та Сума за позицію)
                 if (countSpan) countSpan.innerText = data.count;
                 if (itemPriceSpan) itemPriceSpan.innerText = data.itemPrice;
-
-                // Оновлюємо загальну суму кошика
                 if (totalAmountSpan) totalAmountSpan.innerText = data.totalPrice;
-
-                // Оновлюємо лічильники (Бадж у шапці та текст у кошику)
                 if (basketBadge) {
                     basketBadge.innerText = data.fullCount;
                     if (data.fullCount > 0) {
@@ -68,8 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
             button.disabled = false;
         }
     });
-
-    // 2. ВИДАЛЕННЯ ТОВАРУ ПОВНІСТЮ (Смітник)
     document.addEventListener('submit', async (e) => {
         const form = e.target.closest('.delete-all-form');
         if (!form) return;
@@ -99,11 +88,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (document.querySelectorAll('tbody tr').length === 0) {
                         location.reload();
                     } else {
-                        if (document.getElementById('total-amount')) 
+                        if (document.getElementById('total-amount'))
                             document.getElementById('total-amount').innerText = data.totalPrice;
-                        if (document.getElementById('basket-count')) 
+                        if (document.getElementById('basket-count'))
                             document.getElementById('basket-count').innerText = data.fullCount;
-                        if (document.getElementById('total-items-count')) 
+                        if (document.getElementById('total-items-count'))
                             document.getElementById('total-items-count').innerText = data.fullCount;
                     }
                 }
@@ -112,8 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-
-    // 3. ДОДАВАННЯ В КОШИК (З каталогу)
     document.addEventListener('submit', async (e) => {
         const form = e.target.closest('.add-to-cart-form');
         if (!form) return;

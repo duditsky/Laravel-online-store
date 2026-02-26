@@ -9,17 +9,17 @@
                     <div class="card border-0 rounded-4 overflow-hidden shadow-sm bg-black text-white" style="min-height: 400px; position: relative;">
 
                         <div style="
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-                            width: 100%;
-                            height: 100%;
-                            background-image: url('{{ asset('storage/img/design/design4.jpg') }}'); 
-                            background-size: cover;
-                            background-position: center;
-                            opacity: 0.5; 
-                            z-index: 0;
-                        "></div>
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                width: 100%;
+                                height: 100%;
+                                background-image: url('/storage/img/design/design4.jpg'); 
+                                background-size: cover;
+                                background-position: center;
+                                opacity: 0.5; 
+                                z-index: 0;
+                            "></div>
 
                         <div class="container pt-4 pb-0" style="position: relative; z-index: 1;">
                             @if($products->count() > 0)
@@ -53,7 +53,6 @@
                                     @endforeach
                                 </div>
 
-                                {{-- Кнопки --}}
                                 <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev"
                                     style="width: 40px; height: 40px; position: absolute; top: 125px; left: 10px; opacity: 1; z-index: 10;">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"

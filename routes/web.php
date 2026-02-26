@@ -40,16 +40,9 @@ Route::middleware(['throttle:onlineStore'])->group(function () {
         Route::get('/orders', [OrderController::class, 'allOrders'])->name('all.orders');
         Route::put('orders/{order}/status', [OrderController::class, 'changeStatus'])->name('status.orders');
 
-
-
-
         Route::get('/posts', [PostController::class, 'index'])->name('post.index');
         Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
-
-        // Використовуємо PATCH (як у нашому JavaScript)
         Route::patch('/posts/{id}', [PostController::class, 'update'])->name('posts.update');
-
-        // ТІЛЬКИ DELETE для видалення, ніяких any!
         Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
     });
 

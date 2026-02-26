@@ -1,13 +1,8 @@
-/**
- * JOYSTORE Review Management System
- */
-
 let editModal;
 let deleteConfirmModal;
 
 document.addEventListener('DOMContentLoaded', function () {
-    // 1. Ініціалізація модалок (залишаємо всередині, бо потрібен доступ до DOM)
-    const editModalEl = document.getElementById('ajaxEditModal');
+       const editModalEl = document.getElementById('ajaxEditModal');
     const deleteModalEl = document.getElementById('confirmDeleteModal');
 
     if (editModalEl) {
@@ -19,8 +14,6 @@ document.addEventListener('DOMContentLoaded', function () {
         document.body.appendChild(deleteModalEl);
         deleteConfirmModal = new bootstrap.Modal(deleteModalEl);
     }
-
-    // Делегування кліку для Edit
     document.addEventListener('click', function (e) {
         const btn = e.target.closest('.btn-edit');
         if (btn) {
@@ -31,12 +24,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
-
-// --- ВИНЕСЕНО ЗА МЕЖІ DOMContentLoaded ДЛЯ ГЛОБАЛЬНОГО ДОСТУПУ ---
-
-/**
- * 1. ОНОВЛЕННЯ ВІДГУКУ
- */
 window.ajaxUpdatePost = function () {
     const id = document.getElementById('modal-post-id').value;
     const text = document.getElementById('modal-post-text').value;
@@ -46,7 +33,7 @@ window.ajaxUpdatePost = function () {
     const originalBtnText = saveBtn.innerHTML;
 
     saveBtn.disabled = true;
-    saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Зберігання...';
+    saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>saving...';
 
     fetch(`/posts/${id}`, {
         method: 'PATCH',
@@ -73,16 +60,12 @@ window.ajaxUpdatePost = function () {
             editModal.hide();
         }
     })
-    .catch(err => alert('Помилка при збереженні'))
+    .catch(err => alert('save error'))
     .finally(() => {
         saveBtn.disabled = false;
         saveBtn.innerHTML = originalBtnText;
     });
 };
-
-/**
- * 2. ВІДКРИТТЯ МОДАЛКИ ВИДАЛЕННЯ
- */
 window.ajaxDeletePost = function (id) {
     const input = document.getElementById('delete-post-id');
     if (input) input.value = id;
@@ -90,16 +73,12 @@ window.ajaxDeletePost = function (id) {
     if (deleteConfirmModal) {
         deleteConfirmModal.show();
     } else {
-        // Якщо модалка не встигла ініціалізуватися, пробуємо ще раз
-        const el = document.getElementById('confirmDeleteModal');
+             const el = document.getElementById('confirmDeleteModal');
         deleteConfirmModal = new bootstrap.Modal(el);
         deleteConfirmModal.show();
     }
 };
 
-/**
- * 3. ПІДТВЕРДЖЕНЕ ВИДАЛЕННЯ
- */
 window.confirmAjaxDelete = function () {
     const id = document.getElementById('delete-post-id').value;
     const confirmBtn = document.getElementById('confirmDeleteBtn') || document.querySelector('#confirmDeleteModal .btn-danger');
@@ -132,7 +111,7 @@ window.confirmAjaxDelete = function () {
             deleteConfirmModal.hide();
         }
     })
-    .catch(err => alert('Не вдалося видалити'))
+    .catch(err => alert('delete error'))
     .finally(() => {
         confirmBtn.disabled = false;
         confirmBtn.innerHTML = originalBtnText;

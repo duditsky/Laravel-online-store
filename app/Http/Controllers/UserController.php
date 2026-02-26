@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Contracts\Auth\PasswordBroker;
 
 class UserController extends Controller
 {
@@ -71,9 +70,9 @@ class UserController extends Controller
       $request->only('email')
     );
 
-   return $status === Password::RESET_LINK_SENT
-        ? redirect()->route('login')->with('status', __($status))
-        : back()->withErrors(['email' => __($status)]);
+    return $status === Password::RESET_LINK_SENT
+      ? redirect()->route('login')->with('status', __($status))
+      : back()->withErrors(['email' => __($status)]);
   }
 
   public function showResetForm(Request $request, $token = null)
@@ -108,10 +107,4 @@ class UserController extends Controller
       ? redirect()->route('login')->with('success', __($status))
       : back()->withErrors(['email' => [__($status)]]);
   }
-
- 
-
-  
-
-  
 }

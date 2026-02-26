@@ -1,6 +1,3 @@
-/* =========================================
-   1. ГЛОБАЛЬНІ НАЛАШТУВАННЯ ТА ЗМІННІ
-   ========================================= */
 :root {
     --main-color: #ffc107;
     --primary-blue: #0d6efd;
@@ -11,12 +8,8 @@
 body {
     background-color: var(--bg-light);
     font-family: 'Inter', sans-serif;
-    /* Якщо підключено */
 }
 
-/* =========================================
-   2. ШАПКА ТА НАВІГАЦІЯ (NAVBAR)
-   ========================================= */
 .top-header {
     font-size: 0.85rem;
     background: var(--bg-light);
@@ -31,7 +24,6 @@ body {
     font-weight: 500;
 }
 
-/* Пошукова панель */
 .search-input {
     border-radius: 20px 0 0 20px !important;
 }
@@ -40,7 +32,7 @@ body {
     border-radius: 0 20px 20px 0 !important;
 }
 
-/* Мега-меню */
+
 .mega-menu-item {
     position: static !important;
 }
@@ -61,9 +53,6 @@ body {
     display: block;
 }
 
-/* =========================================
-   3. ГОРОВНИЙ БАНЕР (HERO SECTION)
-   ========================================= */
 .modern-hero {
     position: relative;
     height: 400px;
@@ -107,16 +96,12 @@ body {
     padding-bottom: 50px;
 }
 
-/* =========================================
-   4. КАРТКИ ТОВАРІВ ТА КАТЕГОРІЙ
-   ========================================= */
 .card {
     border-radius: 16px;
     border: none;
     transition: all 0.3s ease;
 }
 
-/* Ефект при наведенні на будь-яку картку */
 .card:hover,
 .transition-hover:hover {
     transform: translateY(-8px);
@@ -128,7 +113,6 @@ body {
     font-weight: 600;
 }
 
-/* Стилі категорій */
 .img-wrapper {
     height: 120px;
     display: flex;
@@ -148,7 +132,6 @@ body {
     transform: translateY(-5px);
 }
 
-/* Слайдер товарів */
 #productCarousel img {
     transition: transform 0.6s ease-out !important;
     will-change: transform;
@@ -158,9 +141,6 @@ body {
     transform: scale(1.08);
 }
 
-/* =========================================
-   5. СТОРІНКА ЗАМОВЛЕНЬ ТА ФОРМИ
-   ========================================= */
 .rounded-4 {
     border-radius: 1.25rem !important;
 }
@@ -194,7 +174,6 @@ body {
     border-bottom: 0;
 }
 
-/* Кнопки */
 .btn-dark,
 .btn-success {
     border-radius: 10px;
@@ -211,9 +190,6 @@ body {
     border: none;
 }
 
-/* =========================================
-   6. АНІМАЦІЇ
-   ========================================= */
 .animate-fadeIn {
     animation: fadeIn 1s ease-out;
 }
@@ -244,7 +220,6 @@ body {
     }
 }
 
-/* Адаптивність */
 @media (max-width: 768px) {
     .modern-hero {
         height: 300px;
@@ -259,11 +234,6 @@ body {
     }
 }
 
-/* ============================================================
-   7. СТИЛІ ДЛЯ АДМІНПАНЕЛІ (ADMIN ORDERS MANAGEMENT)
-   ============================================================ */
-
-/* Заголовки адмінки */
 .admin-title {
     font-weight: 800;
     color: #1a1a1a;
@@ -281,7 +251,6 @@ body {
     border-radius: 8px;
 }
 
-/* Картки статистики (Dashboard Stats) */
 .stat-card {
     background: white;
     padding: 20px;
@@ -311,7 +280,6 @@ body {
     border-left: 4px solid #ffc107 !important;
 }
 
-/* Картка користувача (User Block) */
 .admin-user-card {
     background: white;
     border-radius: 20px;
@@ -325,7 +293,6 @@ body {
     padding: 15px 25px;
 }
 
-/* Стилізація таблиці замовлень */
 .admin-table thead th {
     background: #f8f9fa;
     text-transform: uppercase;
@@ -355,7 +322,6 @@ body {
     color: #495057;
 }
 
-/* Статус-бейджи (Status Badges) */
 .status-badge {
     padding: 6px 14px;
     border-radius: 50px;
@@ -389,7 +355,6 @@ body {
     color: #721c24;
 }
 
-/* Форма управління (Management Form) */
 .admin-status-form {
     display: flex;
     gap: 8px;
@@ -419,16 +384,10 @@ body {
     transform: scale(1.05);
 }
 
-/* Порожній стан */
 .empty-orders {
     color: #ccc;
     font-style: italic;
 }
-
-
-/* ============================================================
-   8. СТИЛІ ДЛЯ СТОРІНКИ ВІДГУКІВ (REVIEWS MANAGEMENT)
-   ============================================================ */
 
 .review-admin-card {
     transition: all 0.3s ease;
@@ -451,37 +410,28 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* Іконки квот для краси */
 .bi-quote {
     line-height: 1;
 }
 
-/* Виправлення стандартного відображення кнопок у формах */
 .btn-link.link-danger {
     text-decoration: none;
     padding: 0;
 }
 
-/* ============================================================
-   ADMIN REVIEWS STYLES
-   ============================================================ */
-
-/* Робимо головний контейнер прозорим, щоб бачити фон сайту */
 .admin-container {
     background: transparent !important;
 }
 
-/* Стиль заголовка (білий текст з тінню, щоб не зливався) */
 .admin-title {
     color: #ffffff;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     font-weight: 800;
 }
 
-/* Картка відгуку */
+
 .review-admin-card {
     background: rgba(255, 255, 255, 0.9);
-    /* Напівпрозорий білий */
     backdrop-filter: blur(10px);
     border-radius: 15px !important;
     transition: transform 0.2s ease;
@@ -491,21 +441,16 @@ body {
     transform: translateY(-5px);
 }
 
-/* Бокова панель з інфо про клієнта */
 .admin-container .border-end {
     border-color: rgba(0, 0, 0, 0.1) !important;
 }
 
-/* Бокс з текстом відгуку */
 .review-content-box {
     background-color: #f8f9fa !important;
     border-left: 4px solid var(--main-color, #0d6efd);
     min-height: 100px;
 }
 
-/* ============================================================
-   ФІКС ГІГАНТСЬКОЇ ПАГІНАЦІЇ (Стрілки)
-   ============================================================ */
 .admin-pagination svg {
     width: 20px !important;
     height: 20px !important;
@@ -514,14 +459,12 @@ body {
 
 .admin-pagination nav div:first-child {
     display: none;
-    /* Ховаємо напис "Showing 1 to 10..." */
 }
 
 .admin-pagination .pagination {
     margin-top: 20px;
 }
 
-/* Додатково для кнопок пагінації */
 .admin-pagination .page-link {
     padding: 8px 16px;
     border-radius: 8px;
@@ -529,10 +472,6 @@ body {
     color: #333;
 }
 
-/* ============================================================
-   ФІКС ПРИОРИТЕТУ ШАРІВ (Z-INDEX) ДЛЯ МОДАЛЬНИХ ВІКОН
-   ============================================================ */
-/* 1. Фікс пагінації (стрілки) */
 .admin-pagination svg {
     width: 1.2rem !important;
     height: 1.2rem !important;
@@ -543,7 +482,6 @@ body {
     display: none;
 }
 
-/* 2. Пріоритет шарів (z-index) */
 .modal-backdrop {
     z-index: 1040 !important;
 }
@@ -552,17 +490,13 @@ body {
     z-index: 1050 !important;
 }
 
-/* 3. Стилі для плавного видалення */
 .review-admin-card {
     transition: all 0.4s ease;
 }
 
-/* Стилі для покращеного меню */
 .category-navbar {
     background-color: #121212 !important;
-    /* Глибокий чорний */
     border-bottom: 2px solid #0d6efd;
-    /* Синя лінія знизу для акценту */
     min-height: 55px;
     display: flex;
     align-items: center;
@@ -581,7 +515,6 @@ body {
     text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
 }
 
-/* Спеціальне підсвічування для New Arrivals та Hot Deals */
 .nav-link.text-info:hover {
     text-shadow: 0 0 10px rgba(13, 202, 240, 0.6) !important;
 }

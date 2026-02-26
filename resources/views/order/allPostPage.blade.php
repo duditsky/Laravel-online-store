@@ -16,8 +16,7 @@
                 <li> {{ $user->name}}</li>
             </h3>
 
-
-            @foreach($order->products as $product)
+             @foreach($order->products as $product)
             <li> {{ $product->name}}</li>
             <p>{{$order->user->name}}:</p>
             @foreach($product->posts as $post)

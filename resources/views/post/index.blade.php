@@ -99,6 +99,5 @@
     </div>
 </div>
 
-{{-- Підключаємо JS в самому кінці --}}
 <script src="{{ asset('js/post.js') }}"></script>
 @endsection
