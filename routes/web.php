@@ -43,12 +43,14 @@ Route::middleware(['throttle:onlineStore'])->group(function () {
 
 
 
-
-        Route::any('/posts', [PostController::class, 'index'])->name('post.index');
+        Route::get('/posts', [PostController::class, 'index'])->name('post.index');
         Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
-        Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
-        Route::put('/posts/{id}', [PostController::class, 'update'])->name('posts.update');
-        Route::any('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+
+        // Використовуємо PATCH (як у нашому JavaScript)
+        Route::patch('/posts/{id}', [PostController::class, 'update'])->name('posts.update');
+
+        // ТІЛЬКИ DELETE для видалення, ніяких any!
+        Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
     });
 
     Route::get('forgot-password', [UserController::class, 'showLinkRequestForm'])->name('password.request');

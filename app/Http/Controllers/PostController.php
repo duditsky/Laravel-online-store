@@ -21,61 +21,37 @@ class PostController extends Controller
 
         return view('post.index', compact('posts'));
     }
-    public function create()
-    {
-        return view('post.create');
+    public function update(Request $request, $id)
+{
+    $post = Post::findOrFail($id);
+    $validated = $request->validate(['text' => 'required|max:255']);
+    $post->update(['text' => $validated['text']]);
+
+    if ($request->ajax()) {
+        return response()->json(['success' => true]);
     }
-    public function store(Request $request)
-    {
+    return redirect()->back()->with('success', 'Post updated successfully');
+}
 
-        $validated = $request->validate([
-            'text' => 'required|max:255',
-            'order_id' => 'required|integer',
-            'product_id' => 'required|integer',
-            'user_id' => 'required|integer',
-        ]);
+public function destroy($id) 
+{
+    // 1. Шукаємо пост по ID вручну
+    $post = Post::find($id);
 
-        $orderId = $request->input('order_id');
-        $order = Order::find($orderId);
-
-        if ($order && $order->status == 'Completed') {
-            $newPost = Post::with('order')->where('order_id', $request->order_id)->where('product_id', $request->product_id)->first();
-
-            if (!is_null($newPost)) {
-
-                return redirect()->back()->withErrors('review was created!');
-            } else {
-                $newPost = Post::create($validated);
-            }
-
-            return redirect()->back()->with('success', 'You review has been created');
-        } else {
-            return redirect()->back()->withErrors('You can leave a review only after order is completed!');
+    // 2. Якщо пост знайдено — видаляємо
+    if ($post) {
+        $post->delete();
+        
+        if (request()->ajax()) {
+            return response()->json(['success' => true]);
         }
     }
-    public function edit(Post $post)
-    {
-        return view('post.edit', ['post' => $post]);
+
+   
+    if (request()->ajax()) {
+        return response()->json(['success' => false, 'message' => 'Post not found'], 404);
     }
-    public function update(Request $request, $id)
-    {
-        $post = Post::findOrFail($id);
 
-        $validated = $request->validate([
-            'text' => 'required|max:255',
-
-        ]);
-
-        $post->update([
-            'text' => $validated['text'],
-        ]);
-
-        return redirect()->back()->with('success', 'Post updated successfully');
-    }
-    public function destroy(Post $post)
-    {
-
-        $post->delete();
-        return redirect()->route('home')->with('success', 'Post deleted successfully');
-    }
+    return redirect()->back()->with('success', 'Post deleted successfully');
+}
 }

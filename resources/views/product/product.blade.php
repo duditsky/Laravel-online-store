@@ -6,7 +6,8 @@
 
 <div class="row text-center">
     <div class="container pt-3 pb-5">
-    <div class="text-center mb-4 mt-5"> <p class="lead text-primary fw-bold mb-3">All Products</p>
+    <div class="text-center mb-4 mt-5"> 
+        <h1 class="admin-title">All Products</h1>
     @include('components.sort-dropdown')
 </div>
 

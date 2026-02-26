@@ -4,7 +4,8 @@
 
 @section('content')
 <div class="container pt-3 pb-5">
-    <div class="text-center mb-4 mt-5"> <p class="lead text-primary fw-bold mb-3">{{ $category->description }}</p>
+    <div class="text-center mb-4 mt-5">
+         <h1 class="admin-title">{{ $category->description }}</h1>
     @include('components.sort-dropdown')
 </div>
 

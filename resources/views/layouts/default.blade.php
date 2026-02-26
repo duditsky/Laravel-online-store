@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="{{ asset('css/chat.css') }}">
   <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+
 </head>
 
 <body>
@@ -125,22 +126,22 @@
     </div>
   </header>
 
-  <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-1">
+  <nav class="navbar navbar-expand-lg category-navbar navbar-dark py-0">
     <div class="container">
-      <button class="navbar-toggler w-100 border-0" type="button" data-bs-toggle="collapse" data-bs-target="#categoriesNav">
+      <button class="navbar-toggler w-100 border-0 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#categoriesNav">
         <i class="bi bi-list"></i> HARDWARE CATALOG
       </button>
       <div class="collapse navbar-collapse" id="categoriesNav">
-        <ul class="navbar-nav w-100 justify-content-between text-uppercase small fw-semibold">
+        <ul class="navbar-nav w-100 justify-content-between text-uppercase small fw-bold">
           <li class="nav-item">
             <a class="nav-link text-white" href="{{route('allProducts')}}">
-              <i class="bi bi-grid-fill me-1"></i> All Tech
+              <i class="bi bi-grid-fill"></i> All Tech
             </a>
           </li>
 
           <li class="nav-item mega-menu-item">
             <a class="nav-link text-white d-flex align-items-center" href="{{route('categories')}}">
-              <i class="bi bi-cpu me-1"></i> PC Components
+              <i class="bi bi-cpu"></i> PC Components
             </a>
 
             <div class="mega-menu-content shadow-lg">
@@ -173,25 +174,25 @@
 
           <li class="nav-item">
             <a class="nav-link text-white" href="#">
-              <i class="bi bi-laptop me-1"></i> Laptops
+              <i class="bi bi-laptop"></i> Laptops
             </a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link text-white" href="#">
-              <i class="bi bi-controller me-1"></i> Gaming Gear
+              <i class="bi bi-controller"></i> Gaming Gear
             </a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link text-info fw-bold" href="#">
-              <i class="bi bi-stars me-1"></i> NEW ARRIVALS
+              <i class="bi bi-stars"></i> NEW ARRIVALS
             </a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link text-danger fw-bold" href="#">
-              <i class="bi bi-fire me-1"></i> HOT DEALS %
+              <i class="bi bi-fire"></i> HOT DEALS %
             </a>
           </li>
         </ul>
