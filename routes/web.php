@@ -13,6 +13,7 @@ use App\Http\Controllers\OrderController;
 Route::middleware(['throttle:onlineStore'])->group(function () {
 
     Route::get('/chat', ChatController::class);
+    Route::get('/chat/history', [ChatController::class, 'getHistory']);
 
     Route::get('/all', [ProductController::class, 'allProducts'])->name('allProducts');
 

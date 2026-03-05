@@ -15,6 +15,29 @@ function toggleChat() {
     }
 }
 
+async function loadHistory() {
+    const container = document.getElementById('chat-messages');
+    if (!container) return;
+
+    try {
+        const response = await fetch('/chat/history');
+        if (!response.ok) return;
+
+        const messages = await response.json();
+        
+        container.innerHTML = '';
+        appendMessage('bot', "Привіт! Я твій AI-помічник. Чим можу допомогти?");
+
+        if (messages.length > 0) {
+            messages.forEach(msg => {
+                appendMessage(msg.role === 'user' ? 'user' : 'bot', msg.content);
+            });
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}
+
 async function sendMessage() {
     const input = document.getElementById('chat-input');
     const container = document.getElementById('chat-messages');
@@ -58,19 +81,12 @@ async function sendMessage() {
             botMsgDiv.innerHTML = "<span class='text-danger'>Помилка з'єднання. Спробуйте пізніше.</span>";
         }
     } finally {
-
         input.disabled = false;
         input.focus();
         container.scrollTop = container.scrollHeight;
     }
 }
 
-/**
- * Render message in the chat container
- * * @param {string} type - 'user' | 'bot'
- * @param {string} text
- * @param {string|null} id
- */
 function appendMessage(type, text, id = null) {
     const container = document.getElementById('chat-messages');
     if (!container) return;
@@ -97,6 +113,8 @@ function appendMessage(type, text, id = null) {
 
 document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('chat-input');
+
+    loadHistory();
 
     if (input) {
         input.addEventListener('keypress', (e) => {

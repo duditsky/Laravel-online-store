@@ -63,4 +63,19 @@ class ChatController extends Controller
             'answer' => $aiResponse
         ], 200, [], JSON_UNESCAPED_UNICODE);
     }
+    public function getHistory()
+    {
+        $sessionToken = Session::getId();
+        $chatSession = ChatSession::where('session_token', $sessionToken)->first();
+
+        if (!$chatSession) {
+            return response()->json([]);
+        }
+
+        $messages = $chatSession->messages()
+            ->orderBy('created_at', 'asc')
+            ->get(['role', 'content']);
+
+        return response()->json($messages);
+    }
 }
