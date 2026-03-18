@@ -54,16 +54,14 @@
                                 <option value="Ukr Poshta">Ukr Poshta (Econom)</option>
                             </select>
                         </div>
-
                         <div class="col-md-6">
                             <label for="payment_method" class="form-label text-secondary fw-semibold">Payment</label>
                             <select name="payment_method" id="payment_method" class="form-select bg-light border-0 shadow-sm">
-                                <option value="Cash">Cash on Delivery</option>
-                                <option value="Visa Card">Visa / MasterCard</option>
+                                <option value="cash">Cash on Delivery</option>
+                                <option value="liqpay">Visa / MasterCard (LiqPay)</option>
                             </select>
                         </div>
                     </div>
-
                     <button class="w-100 btn bg-primary btn-lg mt-5 fw-bold py-3 shadow" type="submit">
                         Complete Order
                     </button>

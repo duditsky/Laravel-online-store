@@ -14,7 +14,10 @@ class Order extends Model
       'phone',
       'address',
       'shipping_method',
-      'payment_method'
+      'payment_method',
+      'total_price',
+      'transaction_id',
+      'payment_status',    
    ];
 
    public function products()

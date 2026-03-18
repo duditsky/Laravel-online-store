@@ -8,12 +8,21 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CallbackController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 
 
 Route::middleware(['throttle:onlineStore'])->group(function () {
 
     Route::get('/chat', ChatController::class);
     Route::get('/chat/history', [ChatController::class, 'getHistory']);
+
+    Route::prefix('payment')->name('payment.')->group(function () {
+        Route::get('/checkout/{order}', [PaymentController::class, 'checkout'])
+            ->name('checkout');
+        Route::post('/callback', [PaymentController::class, 'callback'])
+            ->name('callback');
+    });
+
 
     Route::get('/all', [ProductController::class, 'allProducts'])->name('allProducts');
 

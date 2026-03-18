@@ -31,12 +31,13 @@ class OrderController extends Controller
         if (is_null($orderId)) {
             return redirect()->route('home');
         }
-        $order = Order::find($orderId);
 
+        $order = Order::find($orderId);
         if (is_null($order)) {
             session()->forget('orderId');
             return redirect()->route('home');
         }
+
         $request->validate([
             'name' => 'required|min:2|max:255',
             'phone' => 'required',
@@ -44,6 +45,7 @@ class OrderController extends Controller
             'shipping_method' => 'required',
             'payment_method' => 'required',
         ]);
+
         $order->name = $request->name;
         $order->phone = $request->phone;
         $order->address = $request->address;
@@ -51,13 +53,20 @@ class OrderController extends Controller
         $order->payment_method = $request->payment_method;
         $order->status = 1;
 
+        $order->total_price = $order->getFullPrice();
+
         $user = $request->user();
         $order->user_id = $user ? $user->id : null;
         $order->save();
 
         session()->forget('orderId');
 
-        return redirect()->route('home')->with('success', 'Order confirmed! Thank you.');
+
+        if ($request->payment_method === 'liqpay') {
+            return redirect()->route('payment.checkout', ['order' => $order->id]);
+        }
+
+        return redirect()->route('home')->with('success', 'Order confirmed! We will contact you.');
     }
     public function orders(Request $request)
     {
@@ -72,20 +81,20 @@ class OrderController extends Controller
     {
         $users = User::with(['orders.products'])
             ->whereHas('orders')
-            ->latest() 
-            ->paginate(10); 
+            ->latest()
+            ->paginate(10);
 
         return view('order.allOrderPage', compact('users'));
     }
     public function changeStatus(Request $request, Order $order)
-{
+    {
         $request->validate([
-        'status' => 'required|in:0,1,2,3,4',
-    ]);
+            'status' => 'required|in:0,1,2,3,4',
+        ]);
 
         $order->status = $request->status;
-    $order->save();
+        $order->save();
 
-       return back()->with('success', 'Order #' . $order->id . ' status updated to ' . $order->status);
-}
+        return back()->with('success', 'Order #' . $order->id . ' status updated to ' . $order->status);
+    }
 }
