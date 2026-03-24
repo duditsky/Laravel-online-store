@@ -9,6 +9,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CallbackController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\NovaPoshtaController;
 
 
 Route::middleware(['throttle:onlineStore'])->group(function () {
@@ -22,6 +23,9 @@ Route::middleware(['throttle:onlineStore'])->group(function () {
         Route::post('/callback', [PaymentController::class, 'callback'])
             ->name('callback');
     });
+
+    Route::get('/novaposhta/cities', [NovaPoshtaController::class, 'getCities']);
+    Route::get('/novaposhta/warehouses', [NovaPoshtaController::class, 'getWarehouses']);
 
 
     Route::get('/all', [ProductController::class, 'allProducts'])->name('allProducts');

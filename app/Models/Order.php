@@ -18,6 +18,9 @@ class Order extends Model
       'total_price',
       'transaction_id',
       'payment_status',    
+      'city',
+      'warehouse',
+      'city_ref',
    ];
 
    public function products()

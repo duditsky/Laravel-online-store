@@ -4,11 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\User;
+use App\Services\Shipping\NovaPoshtaService;
 
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    protected $novaPoshta;
+
+    // Впроваджуємо сервіс (Dependency Injection)
+    public function __construct(NovaPoshtaService $novaPoshta)
+    {
+        $this->novaPoshta = $novaPoshta;
+    }
     public function orderPlace()
     {
         $orderId = session('orderId');
@@ -27,6 +35,8 @@ class OrderController extends Controller
 
     public function orderConfirm(Request $request)
     {
+
+
         $orderId = session('orderId');
         if (is_null($orderId)) {
             return redirect()->route('home');
@@ -44,6 +54,8 @@ class OrderController extends Controller
             'address' => 'required|min:5',
             'shipping_method' => 'required',
             'payment_method' => 'required',
+            'city_name' => 'required_if:shipping_method,Nova Poshta',
+            'warehouse_name' => 'required_if:shipping_method,Nova Poshta',
         ]);
 
         $order->name = $request->name;
@@ -51,6 +63,16 @@ class OrderController extends Controller
         $order->address = $request->address;
         $order->shipping_method = $request->shipping_method;
         $order->payment_method = $request->payment_method;
+        if ($request->shipping_method === 'Nova Poshta') {
+            $order->city = $this->novaPoshta->getCityNameByRef($request->city_name);
+            $order->warehouse = $this->novaPoshta->getWarehouseNameByRef(
+                $request->city_name,   
+                $request->warehouse_name 
+            );
+            $order->city_ref = $request->city_name;
+        }
+
+
         $order->status = 1;
 
         $order->total_price = $order->getFullPrice();

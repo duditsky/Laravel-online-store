@@ -1,3 +1,4 @@
+/* --- Змінні та базові налаштування --- */
 :root {
     --main-color: #ffc107;
     --primary-blue: #0d6efd;
@@ -8,51 +9,50 @@
 body {
     background-color: var(--bg-light);
     font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
 }
 
-.top-header {
-    font-size: 0.85rem;
-    background: var(--bg-light);
+/* --- Навігація --- */
+.top-header { font-size: 0.85rem; background: var(--bg-light); }
+.navbar-brand { font-style: italic; font-weight: bold; }
+.nav-link { font-weight: 500; transition: all 0.3s ease; }
+
+.category-navbar {
+    background-color: #121212 !important;
+    border-bottom: 2px solid var(--primary-blue);
+    min-height: 55px;
+    display: flex;
+    align-items: center;
 }
 
-.navbar-brand {
-    font-style: italic;
-    font-weight: bold;
+.category-navbar .nav-link {
+    padding: 0.8rem 0.5rem !important;
+    opacity: 0.9;
 }
 
-.nav-link {
-    font-weight: 500;
+.category-navbar .nav-link:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
 }
 
-.search-input {
-    border-radius: 20px 0 0 20px !important;
-}
+.search-input { border-radius: 20px 0 0 20px !important; }
+.search-btn { border-radius: 0 20px 20px 0 !important; }
 
-.search-btn {
-    border-radius: 0 20px 20px 0 !important;
-}
-
-
-.mega-menu-item {
-    position: static !important;
-}
-
+/* --- Мега-меню --- */
+.mega-menu-item { position: static !important; }
 .mega-menu-content {
     display: none;
     position: absolute;
-    left: 0;
-    right: 0;
-    width: 100%;
+    left: 0; right: 0; width: 100%;
     background: white;
     z-index: 1050;
     border-top: 3px solid var(--primary-blue);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
+.mega-menu-item:hover .mega-menu-content { display: block; }
 
-.mega-menu-item:hover .mega-menu-content {
-    display: block;
-}
-
+/* --- Hero Секція (ВИПРАВЛЕНО ПОВЕРНЕННЯ МАЛЮНКА) --- */
 .modern-hero {
     position: relative;
     height: 400px;
@@ -66,465 +66,111 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 120%;
+    height: 120%; /* Повернуто висоту контейнера */
     z-index: 1;
 }
 
 .hero-parallax-img {
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     object-fit: cover;
-    object-position: center top;
+    object-position: center top; /* Повернуто позиціонування */
     will-change: transform;
     transition: transform 0.5s cubic-bezier(0.2, 0.4, 0.3, 1);
 }
 
 .hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     z-index: 2;
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 65%, var(--bg-light) 100%);
 }
 
 .content-wrapper {
-    position: relative;
-    z-index: 10;
-    margin-top: -100px;
-    padding-bottom: 50px;
+    position: relative; z-index: 10; margin-top: -100px; padding-bottom: 50px;
 }
 
+/* --- КАРТКИ ТА ЕФЕКТИ (БЕЗ СТРИБКІВ) --- */
 .card {
     border-radius: 16px;
-    border: none;
-    transition: all 0.3s ease;
+    border: 1px solid transparent !important; /* Фіксуємо розмір */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    backface-visibility: hidden;
 }
 
-.card:hover,
+/* Ефект підйому тільки для товарів/категорій */
+.product-card:hover, 
+.category-link:hover .card, 
 .transition-hover:hover {
     transform: translateY(-8px);
     box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12) !important;
 }
 
-.card-title {
-    color: #1a1a1a;
-    font-weight: 600;
+/* Картки у формі оформлення та адмінці НЕ стрибають */
+.container.py-5 .card:hover, 
+.admin-user-card:hover, 
+.stat-card:hover {
+    transform: none !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
 }
 
 .img-wrapper {
     height: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     transition: all 0.3s ease;
 }
 
-.img-wrapper img {
-    max-height: 90px;
-    object-fit: contain;
-}
-
-.category-link:hover .img-wrapper {
-    background-color: #f1f1f1 !important;
-    border-color: var(--primary-blue) !important;
-    transform: translateY(-5px);
-}
-
-#productCarousel img {
-    transition: transform 0.6s ease-out !important;
-    will-change: transform;
-}
-
-#productCarousel .card:hover img {
-    transform: scale(1.08);
-}
-
-.rounded-4 {
-    border-radius: 1.25rem !important;
-}
-
-.form-control,
-.form-select {
+/* --- ФОРМИ ТА SELECT2 --- */
+.form-control, .form-select {
     border-radius: 10px;
     padding: 12px;
+    border: 1px solid #dee2e6 !important;
 }
 
-.form-control:focus,
-.form-select:focus {
-    border-color: var(--primary-blue);
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1);
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-blue) !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1) !important;
 }
 
-.progress-bar {
-    transition: width 1s ease-in-out;
+/* Фікс для Select2 (height: 45px !important) */
+.select2-container--default .select2-selection--single { 
+    height: 45px !important; 
+    border: 1px solid #dee2e6 !important; 
+    border-radius: 0.375rem !important; 
+    display: flex !important; 
+    align-items: center !important; 
 }
 
-.list-group-item {
-    transition: background 0.2s;
-    border-bottom: 1px solid #f0f0f0;
+.select2-container--default .select2-selection--single .select2-selection__rendered { 
+    line-height: 45px !important; 
+    padding-left: 12px !important; 
 }
 
-.list-group-item:hover {
-    background-color: #fafafa;
+.select2-container--default .select2-selection--single .select2-selection__arrow { 
+    height: 45px !important; 
 }
 
-.list-group-item:last-child {
-    border-bottom: 0;
+/* --- АДМІН-ПАНЕЛЬ ТА СТАТУСИ --- */
+.admin-title { font-weight: 800; color: #1a1a1a; }
+.stat-card { background: white; padding: 20px; border-radius: 15px; border: 1px solid #eee; }
+.status-badge { padding: 6px 14px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; }
+
+.st-new { background: #e9ecef; color: #495057; }
+.st-pending { background: #d1ecf1; color: #0c5460; }
+.st-shipped { background: #fff3cd; color: #856404; }
+.st-completed { background: #d4edda; color: #155724; }
+.st-cancelled { background: #f8d7da; color: #721c24; }
+
+/* --- АНІМАЦІЇ --- */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { 
+    from { transform: translateY(30px); opacity: 0; } 
+    to { transform: translateY(0); opacity: 1; } 
 }
 
-.btn-dark,
-.btn-success {
-    border-radius: 10px;
-    transition: transform 0.2s, background-color 0.2s;
-}
+.animate-fadeIn { animation: fadeIn 1s ease-out; }
+.animate-slideUp { animation: slideUp 0.8s ease-out; }
 
-.btn-dark:hover,
-.btn-success:hover {
-    transform: translateY(-2px);
-}
-
-.btn-success {
-    background-color: var(--success-green);
-    border: none;
-}
-
-.animate-fadeIn {
-    animation: fadeIn 1s ease-out;
-}
-
-.animate-slideUp {
-    animation: slideUp 0.8s ease-out;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes slideUp {
-    from {
-        transform: translateY(30px);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
+/* --- Мобільна адаптація --- */
 @media (max-width: 768px) {
-    .modern-hero {
-        height: 300px;
-    }
-
-    .content-wrapper {
-        margin-top: -50px;
-    }
-
-    .display-4 {
-        font-size: 2rem;
-    }
-}
-
-.admin-title {
-    font-weight: 800;
-    color: #1a1a1a;
-}
-
-.admin-subtitle {
-    font-size: 0.9rem;
-}
-
-.admin-stats-badge .badge {
-    background: white;
-    color: #333;
-    border: 1px solid #ddd;
-    padding: 10px 15px;
-    border-radius: 8px;
-}
-
-.stat-card {
-    background: white;
-    padding: 20px;
-    border-radius: 15px;
-    border: 1px solid transparent;
-    transition: transform 0.3s;
-}
-
-.stat-card:hover {
-    transform: translateY(-5px);
-}
-
-.stat-label {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 5px;
-}
-
-.stat-value {
-    font-size: 1.5rem;
-    font-weight: 800;
-}
-
-.highlight-warning {
-    border-left: 4px solid #ffc107 !important;
-}
-
-.admin-user-card {
-    background: white;
-    border-radius: 20px;
-    overflow: hidden;
-    border: none;
-}
-
-.admin-card-header {
-    background: #212529;
-    color: white;
-    padding: 15px 25px;
-}
-
-.admin-table thead th {
-    background: #f8f9fa;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 0.5px;
-    padding: 15px;
-    color: #6c757d;
-}
-
-.admin-table tbody td {
-    padding: 15px;
-    border-bottom: 1px solid #f1f1f1;
-}
-
-.order-date {
-    font-size: 0.8rem;
-    color: #999;
-}
-
-.product-tag {
-    display: inline-block;
-    background: #f1f3f5;
-    padding: 2px 8px;
-    border-radius: 5px;
-    font-size: 0.75rem;
-    margin-right: 4px;
-    color: #495057;
-}
-
-.status-badge {
-    padding: 6px 14px;
-    border-radius: 50px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    display: inline-block;
-}
-
-.st-new {
-    background: #e9ecef;
-    color: #495057;
-}
-
-.st-pending {
-    background: #d1ecf1;
-    color: #0c5460;
-}
-
-.st-shipped {
-    background: #fff3cd;
-    color: #856404;
-}
-
-.st-completed {
-    background: #d4edda;
-    color: #155724;
-}
-
-.st-cancelled {
-    background: #f8d7da;
-    color: #721c24;
-}
-
-.admin-status-form {
-    display: flex;
-    gap: 8px;
-    justify-content: flex-end;
-}
-
-.status-select {
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-    padding: 5px 10px;
-    font-size: 0.85rem;
-    background: #fdfdfd;
-}
-
-.admin-btn-update {
-    background: #333;
-    color: white;
-    border: none;
-    padding: 6px 15px;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    transition: 0.2s;
-}
-
-.admin-btn-update:hover {
-    background: #000;
-    transform: scale(1.05);
-}
-
-.empty-orders {
-    color: #ccc;
-    font-style: italic;
-}
-
-.review-admin-card {
-    transition: all 0.3s ease;
-}
-
-.review-admin-card:hover {
-    transform: translateX(5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08) !important;
-}
-
-.review-content-box {
-    border-left: 4px solid var(--main-color);
-    min-height: 80px;
-}
-
-.review-admin-card .btn-sm {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.bi-quote {
-    line-height: 1;
-}
-
-.btn-link.link-danger {
-    text-decoration: none;
-    padding: 0;
-}
-
-.admin-container {
-    background: transparent !important;
-}
-
-.admin-title {
-    color: #ffffff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    font-weight: 800;
-}
-
-
-.review-admin-card {
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    border-radius: 15px !important;
-    transition: transform 0.2s ease;
-}
-
-.review-admin-card:hover {
-    transform: translateY(-5px);
-}
-
-.admin-container .border-end {
-    border-color: rgba(0, 0, 0, 0.1) !important;
-}
-
-.review-content-box {
-    background-color: #f8f9fa !important;
-    border-left: 4px solid var(--main-color, #0d6efd);
-    min-height: 100px;
-}
-
-.admin-pagination svg {
-    width: 20px !important;
-    height: 20px !important;
-    display: inline-block;
-}
-
-.admin-pagination nav div:first-child {
-    display: none;
-}
-
-.admin-pagination .pagination {
-    margin-top: 20px;
-}
-
-.admin-pagination .page-link {
-    padding: 8px 16px;
-    border-radius: 8px;
-    margin: 0 3px;
-    color: #333;
-}
-
-.admin-pagination svg {
-    width: 1.2rem !important;
-    height: 1.2rem !important;
-    display: inline-block;
-}
-
-.admin-pagination nav div:first-child {
-    display: none;
-}
-
-.modal-backdrop {
-    z-index: 1040 !important;
-}
-
-#ajaxEditModal {
-    z-index: 1050 !important;
-}
-
-.review-admin-card {
-    transition: all 0.4s ease;
-}
-
-.category-navbar {
-    background-color: #121212 !important;
-    border-bottom: 2px solid #0d6efd;
-    min-height: 55px;
-    display: flex;
-    align-items: center;
-}
-
-.category-navbar .nav-link {
-    padding: 0.8rem 0.5rem !important;
-    transition: all 0.3s ease;
-    letter-spacing: 0.5px;
-    opacity: 0.9;
-}
-
-.category-navbar .nav-link:hover {
-    opacity: 1;
-    transform: translateY(-1px);
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
-}
-
-.nav-link.text-info:hover {
-    text-shadow: 0 0 10px rgba(13, 202, 240, 0.6) !important;
-}
-
-.nav-link.text-danger:hover {
-    text-shadow: 0 0 10px rgba(220, 53, 69, 0.6) !important;
-}
-
-.category-navbar i {
-    margin-right: 6px;
-    font-size: 1.1rem;
-    vertical-align: middle;
+    .modern-hero { height: 300px; }
+    .content-wrapper { margin-top: -50px; }
 }

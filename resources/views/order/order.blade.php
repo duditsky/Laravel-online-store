@@ -22,7 +22,7 @@
                                 class="form-control @error('name') is-invalid @enderror"
                                 value="{{ old('name') }}" placeholder="Enter your full name" required>
                             @error('name')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
@@ -30,30 +30,29 @@
                             <label for="phone" class="form-label text-secondary fw-semibold">Phone Number</label>
                             <input type="text" name="phone" id="phone"
                                 class="form-control @error('phone') is-invalid @enderror"
-                                value="{{ old('phone') }}" placeholder="+3 (___) ___-____" required>
+                                value="{{ old('phone') }}" placeholder="+38 (___) ___-____" required>
                             @error('phone')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="col-md-6">
-                            <label for="address" class="form-label text-secondary fw-semibold">Shipping Address</label>
+                            <label for="address" class="form-label text-secondary fw-semibold">Home Address (Optional)</label>
                             <input type="text" name="address" id="address"
-                                class="form-control @error('address') is-invalid @enderror"
-                                value="{{ old('address') }}" placeholder="City, Street, House" required>
+                                class="form-control" value="{{ old('address') }}" placeholder="Street, House, Apt">
                         </div>
 
                         <hr class="my-4 text-muted">
-
                         <h4 class="mb-3 fw-bold text-dark text-center">Payment & Shipping</h4>
 
                         <div class="col-md-6">
                             <label for="shipping_method" class="form-label text-secondary fw-semibold">Carrier</label>
                             <select name="shipping_method" id="shipping_method" class="form-select bg-light border-0 shadow-sm">
-                                <option value="Nova Poshta">Nova Poshta (Standard)</option>
                                 <option value="Ukr Poshta">Ukr Poshta (Econom)</option>
+                                <option value="Nova Poshta">Nova Poshta (Standard)</option>
                             </select>
                         </div>
+
                         <div class="col-md-6">
                             <label for="payment_method" class="form-label text-secondary fw-semibold">Payment</label>
                             <select name="payment_method" id="payment_method" class="form-select bg-light border-0 shadow-sm">
@@ -61,8 +60,28 @@
                                 <option value="liqpay">Visa / MasterCard (LiqPay)</option>
                             </select>
                         </div>
+
+                        <div id="nova-poshta-fields" class="d-none col-12 mt-4">
+                            <div class="p-3 border rounded bg-light shadow-sm">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="city-select" class="form-label text-secondary fw-semibold">City</label>
+                                        <select name="city_name" id="city-select" class="form-select" style="width: 100%;">
+                                            <option value="">Search for a city</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="warehouse-select" class="form-label text-secondary fw-semibold">Warehouse</label>
+                                        <select name="warehouse_name" id="warehouse-select" class="form-select" style="width: 100%;" disabled>
+                                            <option value="">Select city first</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <button class="w-100 btn bg-primary btn-lg mt-5 fw-bold py-3 shadow" type="submit">
+
+                    <button class="w-100 btn btn-primary btn-lg mt-5 fw-bold py-3 shadow" type="submit">
                         Complete Order
                     </button>
                 </form>
@@ -70,7 +89,7 @@
         </div>
 
         <div class="col-md-5 col-lg-4">
-            <div class="card shadow-sm border-0 sticky-top overflow-hidden" style="top: 6rem;">
+            <div class="card shadow-sm border-0 sticky-top overflow-hidden" style="top: 2rem;">
                 <div class="card-header bg-primary text-white py-3 text-center">
                     <h5 class="mb-0 fw-bold text-dark">Order Summary</h5>
                 </div>
@@ -83,34 +102,30 @@
                                     <h6 class="mb-0 fw-bold text-dark text-truncate" title="{{ $product->name }}">
                                         {{ $product->name }}
                                     </h6>
-                                    <small class="text-muted">
-                                        {{ $product->pivot->count }} {{ Str::plural('unit', $product->pivot->count) }}
-                                    </small>
+                                    <small class="text-muted">{{ $product->pivot->count }} units</small>
                                 </div>
-
-                                <div class="text-end" style="white-space: nowrap; min-width: 80px;">
-                                    <span class="fw-bold text-dark">
-                                        {{ number_format($product->getCountPrice(), 2, '.', '') }} $
-                                    </span>
+                                <div class="text-end">
+                                    <span class="fw-bold text-dark">{{ number_format($product->getCountPrice(), 2, '.', '') }} $</span>
                                 </div>
                             </div>
                         </li>
                         @endforeach
-
                         <li class="list-group-item bg-light d-flex justify-content-between align-items-center py-4 px-4">
                             <span class="h5 mb-0 fw-bold">Total:</span>
                             <span class="h4 mb-0 fw-bold text-primary">{{ $order->getFullPrice() }} $</span>
                         </li>
                     </ul>
-
-                    <div class="p-3 text-center">
-                        <small class="text-muted d-block">
-                            <i class="bi bi-shield-lock"></i> Secure Transaction
-                        </small>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@push('scripts')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="{{ asset('js/novaposhta.js') }}"></script>
+@endpush
 @endsection
