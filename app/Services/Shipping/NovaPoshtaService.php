@@ -4,6 +4,7 @@ namespace App\Services\Shipping;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 
 class NovaPoshtaService
 {
@@ -29,22 +30,26 @@ class NovaPoshtaService
         }
 
         Log::error("Nova Poshta API Error ($method): " . $response->body());
-        return null;
+        return [];
     }
 
     public function getCities($search)
     {
-        return $this->apiRequest('Address', 'getCities', [
-            'FindByString' => $search,
-            'Limit' => '20',
-        ]);
+        return Cache::remember("np_cities_" . md5($search), 86400, function () use ($search) {
+            return $this->apiRequest('Address', 'getCities', [
+                'FindByString' => $search,
+                'Limit' => '20',
+            ]);
+        });
     }
 
     public function getWarehouses($cityRef)
     {
-        return $this->apiRequest('Address', 'getWarehouses', [
-            'CityRef' => $cityRef,
-        ]);
+        return Cache::remember("np_warehouses_{$cityRef}", 86400, function () use ($cityRef) {
+            return $this->apiRequest('Address', 'getWarehouses', [
+                'CityRef' => $cityRef,
+            ]);
+        });
     }
 
     public function getCityNameByRef($cityRef)
@@ -66,6 +71,6 @@ class NovaPoshtaService
             return $data[0]['Description'];
         }
 
-        return "wa ($warehouseRef)";
+        return "not found ($warehouseRef)";
     }
 }

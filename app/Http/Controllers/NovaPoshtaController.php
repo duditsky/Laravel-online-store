@@ -16,19 +16,34 @@ class NovaPoshtaController extends Controller
 
     public function getCities(Request $request)
     {
-        $data = $this->novaPoshta->getCities($request->input('q'));
-        
-        return $data !== null 
-            ? response()->json($data) 
-            : response()->json(['error' => 'API Error'], 500);
+        $search = $request->input('q');
+
+        if (mb_strlen($search) < 2) {
+            return response()->json([]);
+        }
+
+        $data = $this->novaPoshta->getCities($search);
+
+        return response()->json($data);
     }
 
     public function getWarehouses(Request $request)
     {
-        $data = $this->novaPoshta->getWarehouses($request->input('cityRef'));
+        $cityRef = $request->input('cityRef');
+        $search = $request->input('q');
 
-        return $data !== null 
-            ? response()->json($data) 
-            : response()->json(['error' => 'API Error'], 500);
+        if (!$cityRef) {
+            return response()->json([]);
+        }
+
+        $data = $this->novaPoshta->getWarehouses($cityRef);
+
+        if ($search && !empty($data)) {
+            $data = array_values(array_filter($data, function ($item) use ($search) {
+                return mb_stripos($item['Description'], $search) !== false;
+            }));
+        }
+
+        return response()->json($data);
     }
 }
