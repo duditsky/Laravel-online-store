@@ -66,6 +66,6 @@ class NovaPoshtaService
             return $data[0]['Description'];
         }
 
-        return "Відділення не знайдено ($warehouseRef)";
+        return "wa ($warehouseRef)";
     }
 }
