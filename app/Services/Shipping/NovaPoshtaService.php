@@ -35,10 +35,21 @@ class NovaPoshtaService
 
     public function getCities($search)
     {
-        return Cache::remember("np_cities_" . md5($search), 86400, function () use ($search) {
+        $cacheKey = "np_cities_by_string_" . md5($search);
+        return Cache::remember($cacheKey, 86400, function () use ($search) {
             return $this->apiRequest('Address', 'getCities', [
                 'FindByString' => $search,
                 'Limit' => '20',
+            ]);
+        });
+    }
+
+    public function getAllCitiesForCaching()
+    {
+        return Cache::remember("np_cities_all", 86400, function () {
+
+            return $this->apiRequest('Address', 'getCities', [
+                'Limit' => '10000', 
             ]);
         });
     }
@@ -54,23 +65,27 @@ class NovaPoshtaService
 
     public function getCityNameByRef($cityRef)
     {
+        $allCities = $this->getAllCitiesForCaching();
+        foreach ($allCities as $city) {
+            if ($city['Ref'] === $cityRef) {
+                return $city['Description'];
+            }
+        }
+
         $data = $this->apiRequest('Address', 'getCities', [
             'Ref' => $cityRef,
         ]);
 
-        return (!empty($data)) ? $data[0]['Description'] : $cityRef;
+        return (!empty($data) && isset($data[0]['Description'])) ? $data[0]['Description'] : $cityRef;
     }
     public function getWarehouseNameByRef($cityRef, $warehouseRef)
     {
-        $data = $this->apiRequest('Address', 'getWarehouses', [
-            'CityRef' => $cityRef,
-            'Ref'     => $warehouseRef,
-        ]);
-
-        if (!empty($data) && isset($data[0]['Description'])) {
-            return $data[0]['Description'];
+        $cachedWarehouses = $this->getWarehouses($cityRef); 
+        foreach ($cachedWarehouses as $warehouse) {
+            if ($warehouse['Ref'] === $warehouseRef) {
+                return $warehouse['Description'];
+            }
         }
-
         return "not found ($warehouseRef)";
     }
 }

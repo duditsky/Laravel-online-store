@@ -10,11 +10,9 @@ use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
-    protected $liqPay;
-
-    public function __construct(LiqPayService $liqPay)
-    {
-        $this->liqPay = $liqPay;
+    public function __construct(
+        protected readonly LiqPayService $liqPay
+    ) {
     }
 
     public function checkout(Order $order)
