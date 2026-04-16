@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\User;
 use App\Services\Shipping\NovaPoshtaService;
+use App\Jobs\SendOrderConfirmationEmail;
 
 use Illuminate\Http\Request;
 
@@ -12,7 +13,6 @@ class OrderController extends Controller
 {
     protected $novaPoshta;
 
-    // Впроваджуємо сервіс (Dependency Injection)
     public function __construct(NovaPoshtaService $novaPoshta)
     {
         $this->novaPoshta = $novaPoshta;
@@ -66,8 +66,8 @@ class OrderController extends Controller
         if ($request->shipping_method === 'Nova Poshta') {
             $order->city = $this->novaPoshta->getCityNameByRef($request->city_name);
             $order->warehouse = $this->novaPoshta->getWarehouseNameByRef(
-                $request->city_name,   
-                $request->warehouse_name 
+                $request->city_name,
+                $request->warehouse_name
             );
             $order->city_ref = $request->city_name;
         }
@@ -80,6 +80,8 @@ class OrderController extends Controller
         $user = $request->user();
         $order->user_id = $user ? $user->id : null;
         $order->save();
+
+        SendOrderConfirmationEmail::dispatch($order);
 
         session()->forget('orderId');
 
